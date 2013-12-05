@@ -23,7 +23,7 @@ class User {
 	static mapping = {
 		password column: '`password`'
 	}
-
+//comment
 	Set<Role> getAuthorities() {
 		UserRole.findAllByUser(this).collect { it.role } as Set
 	}
