@@ -1,0 +1,17 @@
+# IDE support files
+/.classpath
+/.launch
+/.project
+/.settings
+/*.launch
+/*.tmproj
+/ivy*
+/eclipse
+/.idea
+/atlassian-ide-plugin.xml
+/out
+
+*.iws
+*.iml
+
+target
