@@ -8,10 +8,10 @@
 
 <body>
 
-<div id="container" class="container-fluid" style="width: 96%; margin: 0 auto;">
+<div id="container" class="container-fluid" style="width: 98%; margin: 0 auto;">
     <nav class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Smash</a>
+            <a class="navbar-brand" href="#">SMASH</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -31,9 +31,9 @@
         <p>Short Media Sharing</p>
     </div>
 
-    <div class="container-fluid" style="width: 80%; margin: 0 auto;">
-        <div class="row" style="text-align: center; margin-bottom: 5em; ">
-            <div>
+    <div class="container" style="width: 80%; margin: 0 auto;">
+        <div class="row" style="margin-bottom: 5em; ">
+            <div class="col-lg-6" style="text-align: center;">
                 <h3>Available Controllers</h3>
 
             <p>
@@ -41,6 +41,52 @@
                     <li class="controller"><g:link controller="${c.logicalPropertyName}">${c.fullName}</g:link></li>
                 </g:each>
             </div>
+
+            <sec:ifNotLoggedIn>
+                <div class="col-lg-6">
+                    <h3><g:message code="smash.Register"/></h3>
+                    <g:form controller="userManagement" action="signup">
+                        <fieldset>
+
+                            <g:if test="${user?.hasErrors()}">
+                                <div class="alert alert-warning">
+                                    <g:eachError bean="${user}">
+                                        <li><g:message error="${it}"/></li>
+                                    </g:eachError>
+                                </div>
+                            </g:if>
+
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="email" name="email"
+                                       placeholder="Your email"
+                                       value="${fieldValue(bean: user, field: 'email')}">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" class="form-control"
+                                       id="username" placeholder="Choose your username"
+                                       name="username"
+                                       value="${fieldValue(bean: user, field: 'username')}">
+                            </div>
+
+
+                            <div class="form-group">
+                                <input type="password" class="form-control"
+                                       id="password" placeholder="Password" name="password">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="password" class="form-control"
+                                       id="password2" placeholder="Confirm password"
+                                       name="password2">
+                            </div>
+                            <button type="submit"
+                                    class="btn btn-primary pull-left">Sign up &raquo;</button>
+                        </fieldset>
+                    </g:form>
+
+                </div>
+            </sec:ifNotLoggedIn>
         </div>
     </div>
 

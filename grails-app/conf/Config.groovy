@@ -116,9 +116,9 @@ log4j = {
 
 
 // Added by the Spring Security Core plugin:
-grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.smash.User'
-grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.smash.UserRole'
-grails.plugin.springsecurity.authority.className = 'com.smash.Role'
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.smash.user.User'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.smash.user.UserRole'
+grails.plugin.springsecurity.authority.className = 'com.smash.user.Role'
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/':                              ['permitAll'],
 	'/index':                         ['permitAll'],
@@ -129,3 +129,10 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/**/favicon.ico':                ['permitAll']
 ]
 
+// Added so two equal strings encoded with encodePassword() method of
+// SpringSecurity plugin are still equal after begin encoded in test environment
+environments {
+    test {
+        grails.plugin.springsecurity.password.algorithm = 'SHA-1'
+    }
+}

@@ -1,6 +1,6 @@
 package com.smash.domain
 
-import com.smash.User
+import com.smash.user.User
 
 class Evaluation {
 	boolean type;	//true = positive evaluation, false = negative evaluation
