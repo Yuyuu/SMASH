@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<a href="#show-comment" class="skip" tabindex="-1"><g:message
+<a href="#show-comment" class="skip" tabindex="-1"><g:message 
                                                               default="Skip to content&hellip;"/></a>
 
 <div class="nav" role="navigation">
