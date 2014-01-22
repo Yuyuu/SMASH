@@ -64,6 +64,7 @@ grails.project.dependency.resolution = {
         compile ':spring-security-core:2.0-RC2'
 	//	compile ":geb:0.9.2"
         compile ":codenarc:0.19"
+        compile ":richui:0.8"
         // plugins needed at runtime but not for compilation
         runtime ":hibernate:3.6.10.4" // or ":hibernate4:4.1.11.4"
         runtime ":database-migration:1.3.8"
