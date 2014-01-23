@@ -8,7 +8,13 @@ class Comment {
 	static belongsTo = [media: MediaCut];
 
     static constraints = {
-		text blank: false 
+		text blank: false, size: 1..250
 		author nullable: false
+        media nullable: false
     }
+
+    String getComment(){
+        text
+    }
+
 }
