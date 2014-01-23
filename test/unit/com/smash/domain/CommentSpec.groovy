@@ -1,5 +1,6 @@
 package com.smash.domain
 
+import com.smash.User
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import spock.lang.Specification
@@ -11,15 +12,29 @@ import spock.lang.Unroll
 @TestFor(Comment)
 class CommentSpec extends Specification {
 
+    def comment
+    def newComment
+    def authorComment
+    def mediaComment
+
     @Unroll
-    void "dummyTest"() {
+    void "test constraints"() {
+        setup:
+        String longVar = 'a' * 300
+        authorComment = new User()
+        mediaComment = new MediaCut(type: MediaType.MOVIE)
+        comment = new Comment(text: longVar, author: authorComment, media: mediaComment)
+        newComment = new Comment(text: testValue, author: authorComment, media: mediaComment)
+
         expect:
-        res == a + b
+            comment.validate() == false
+            newComment.validate() == result
 
         where:
-        a  | b  | res
-        1  | 1  | 2
-        2  | 3  | 5
-        23 | 10 | 33
+            testValue   | result
+            ''          | false
+            'test'      | true
+
+
     }
 }
