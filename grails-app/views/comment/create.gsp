@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <resource:richTextEditor type="medium" />
     <meta name="layout" content="main">
     <g:set var="entityName" value="${message(code: 'comment.label', default: 'Comment')}"/>
     <title><g:message code="default.create.label" args="[entityName]"/></title>
