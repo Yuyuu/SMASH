@@ -37,11 +37,11 @@
         </tr>
         </thead>
         <tbody>
-        <g:each in="${commentInstanceList}" status="i" var="commentInstance">
+        <g:each in="${Comment.getAll()}" status="i" var="commentInstance">
             <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 
                 <td><g:link action="show"
-                            id="${commentInstance.id}">${fieldValue(bean: commentInstance, field: "text")}</g:link></td>
+                            id="${commentInstance}">${fieldValue(bean: commentInstance, field: "text")}</g:link></td>
 
                 <td>${fieldValue(bean: commentInstance, field: "author")}</td>
 
