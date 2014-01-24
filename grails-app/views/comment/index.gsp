@@ -27,12 +27,12 @@
     <table>
         <thead>
         <tr>
-
-            <g:sortableColumn property="text" title="${message(code: 'comment.text.label', default: 'Text')}"/>
-
             <th><g:message code="comment.author.label" default="Author"/></th>
 
             <th><g:message code="comment.media.label" default="Media"/></th>
+
+            <g:sortableColumn property="text" title="${message(code: 'comment.text.label', default: 'Text')}"/>
+
 
         </tr>
         </thead>
