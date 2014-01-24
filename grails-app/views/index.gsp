@@ -11,11 +11,18 @@
 <div id="container" class="container-fluid" style="width: 98%; margin: 0 auto;">
     <nav class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">SMASH</a>
+            <a class="navbar-brand" href="#">Smash</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
+                <sec:ifLoggedIn>
+                    <p class="navbar-text"><sec:username/></p>
+
+                    <li>
+                        <a href="${createLink(controller: 'logout')}"><g:message code="smash.Sign-out"/> </a>
+                    </li>
+                </sec:ifLoggedIn>
                 <sec:ifNotLoggedIn>
                     <li><g:link controller="login"><g:message code="smash.Sign-in"/></g:link></li>
                 </sec:ifNotLoggedIn>
