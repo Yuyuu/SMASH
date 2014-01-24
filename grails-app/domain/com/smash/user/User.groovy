@@ -1,4 +1,4 @@
-package com.smash
+package com.smash.user
 
 class User {
 
@@ -7,7 +7,7 @@ class User {
 	String username
     String email
 	String password
-	boolean enabled = true
+	boolean enabled
 	boolean accountExpired
 	boolean accountLocked
 	boolean passwordExpired
@@ -15,7 +15,7 @@ class User {
 	static transients = ['springSecurityService']
 
 	static constraints = {
-		username blank: false, unique: true
+		username blank: false, unique: true, matches: '^[a-zA-Z0-9]+(_[a-zA-Z0-9]+)?$'
         email blank: false, email: true, unique: true
 		password blank: false
 	}
@@ -23,7 +23,7 @@ class User {
 	static mapping = {
 		password column: '`password`'
 	}
-//comment
+
 	Set<Role> getAuthorities() {
 		UserRole.findAllByUser(this).collect { it.role } as Set
 	}

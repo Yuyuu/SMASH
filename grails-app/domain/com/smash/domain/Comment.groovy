@@ -1,6 +1,6 @@
 package com.smash.domain
 
-import com.smash.User
+import com.smash.user.User
 
 class Comment {
 	String text;

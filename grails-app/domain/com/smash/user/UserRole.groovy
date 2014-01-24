@@ -1,4 +1,4 @@
-package com.smash
+package com.smash.user
 
 import org.apache.commons.lang.builder.HashCodeBuilder
 
