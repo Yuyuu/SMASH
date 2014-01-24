@@ -18,10 +18,10 @@ class UserSpec extends Specification {
         user.validate() == expectedResult
 
         where:
-        email                               | expectedResult
-        "email"                             | false
-        "martin@email.com"                  | true
-        "email.com"                         | false
+        email               | expectedResult
+        "email"             | false
+        "martin@email.com"  | true
+        "email.com"         | false
     }
 
     @Unroll
@@ -37,7 +37,7 @@ class UserSpec extends Specification {
         user.validate() == expectedResult
 
         where:
-        username| expectedResult
+        username    | expectedResult
         "Username"  | true
         "User.name" | false
         "User_Name" | true
