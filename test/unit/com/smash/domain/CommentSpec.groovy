@@ -12,28 +12,30 @@ import spock.lang.Unroll
 @TestFor(Comment)
 class CommentSpec extends Specification {
 
-    def comment
     def newComment
+    def commentTooLong
+
+    def longVar
     def authorComment
     def mediaComment
 
     @Unroll
     void "test constraints"() {
         setup:
-        String longVar = 'a' * 300
-        authorComment = new User()
-        mediaComment = new MediaCut(type: MediaType.MOVIE)
-        comment = new Comment(text: longVar, author: authorComment, media: mediaComment)
+        longVar = 'a' * 300
+        authorComment = Mock(User)
+        mediaComment = Mock(MediaCut)
         newComment = new Comment(text: testValue, author: authorComment, media: mediaComment)
+        commentTooLong = new Comment(text: longVar, author: authorComment, media: mediaComment)
 
         expect:
-            comment.validate() == false
             newComment.validate() == result
+            commentTooLong.validate() == false
 
         where:
             testValue   | result
-            ''          | false
             'test'      | true
+            ''          | false
 
 
     }

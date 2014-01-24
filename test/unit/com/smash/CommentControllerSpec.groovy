@@ -1,5 +1,6 @@
 package com.smash
 
+import com.smash.domain.Comment
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 
@@ -9,12 +10,12 @@ import spock.lang.Specification
 @TestFor(CommentController)
 class CommentControllerSpec extends Specification {
 
-    def setup() {
-    }
+    void "test index"() {
+        when:
+        controller.index()
 
-    def cleanup() {
-    }
+        then:
+        response.redirectUrl.endsWith("index")
 
-    void "test something"() {
     }
 }

@@ -9,20 +9,16 @@ import grails.transaction.Transactional
 class CommentService {
 
     def springSecurityService
+    def mediaObj = MediaCut.findById(properties.mediaId)
 
     def createAndSave(){
         User currentUser = springSecurityService.findByUsername(springSecurityService.principal.username)
-        MediaCut mediaCut
-        mediaCut.name="random mediaCut"
-        mediaCut.type='FILM'
-
         def newComment = new Comment( text: properties.text,
                                       author: currentUser,
-                                      mediaCut: mediaCut)
+                                      mediaCut: mediaObj)
 
         newComment.save(flush:true)
     }
-    def saveComment() {
 
-    }
+
 }
