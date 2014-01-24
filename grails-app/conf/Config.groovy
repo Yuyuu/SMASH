@@ -129,6 +129,9 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/**/favicon.ico':                ['permitAll']
 ]
 
+// Spring Security Plugin custom configuration
+grails.plugin.springsecurity.logout.postOnly = false
+
 // Added so two equal strings encoded with encodePassword() method of
 // SpringSecurity plugin are still equal after begin encoded in test environment
 environments {
