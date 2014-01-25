@@ -8,7 +8,7 @@ class UserManagementServiceIntegrationSpec extends Specification {
     UserManagementService userManagementService
     SpringSecurityService springSecurityService
 
-    def "addUser - OK"() {
+    def "addUser - Success"() {
         given: "a new user"
         User user = new User(
                 username: "Martin",
@@ -42,7 +42,7 @@ class UserManagementServiceIntegrationSpec extends Specification {
         User.findWhere(username: user.username) == null
     }
 
-    def "updateUser"() {
+    def "updateUser - Success"() {
         given: "a user"
         User user = new User(
                 username: "username",
@@ -55,5 +55,22 @@ class UserManagementServiceIntegrationSpec extends Specification {
 
         then: "the returned user should be in the datastore"
         User.findWhere(username: user.username).id == updated.id
+    }
+
+    def "deleteUser - Success"() {
+        given: "a saved user and a user role"
+        User user = new User(
+                username: "username",
+                email: "email@email.com",
+                password: "password"
+        ).save(failOnError: true)
+        UserRole.create user, RoleEnum.USER_ROLE.role
+
+        when: "calling deleteUser method"
+        userManagementService.deleteUser(user)
+
+        then: "the user and the user role should not be in the datastore anymore"
+        !User.findWhere(username: user.username)
+        !UserRole.findByUser(user)
     }
 }

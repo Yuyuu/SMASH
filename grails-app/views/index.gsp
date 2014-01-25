@@ -27,7 +27,10 @@
                     </li>
 
                     <li>
-                        <a href="${createLink(controller: 'logout')}"><g:message code="smash.Sign-out"/></a>
+                        <a href="${createLink(controller: 'logout')}">
+                            <span class="glyphicon glyphicon-log-out"></span>
+                            <g:message code="smash.Sign-out"/>
+                        </a>
                     </li>
                 </sec:ifLoggedIn>
                 <sec:ifNotLoggedIn>
