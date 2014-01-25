@@ -8,7 +8,7 @@ class UserManagementServiceIntegrationSpec extends Specification {
     UserManagementService userManagementService
     SpringSecurityService springSecurityService
 
-    def "test addUser - OK"() {
+    def "addUser - OK"() {
         given: "a new user"
         User user = new User(
                 username: "Martin",
@@ -26,12 +26,9 @@ class UserManagementServiceIntegrationSpec extends Specification {
         u.email == user.email
         u.authorities.first().authority == RoleEnum.USER_ROLE.name()
         u.password == springSecurityService.encodePassword("password")
-
-        cleanup:
-        user.delete()
     }
 
-    def "test addUser - User has errors"() {
+    def "addUser - User has errors"() {
         given: "a user without email"
         User user = new User(
                 username: "Martin",
@@ -43,5 +40,20 @@ class UserManagementServiceIntegrationSpec extends Specification {
 
         then: "the user should not be added to the datastore"
         User.findWhere(username: user.username) == null
+    }
+
+    def "updateUser"() {
+        given: "a user"
+        User user = new User(
+                username: "username",
+                email: "email@email.com",
+                password: "pass"
+        )
+
+        when: "calling updateUser"
+        def updated = userManagementService.updateUser(user)
+
+        then: "the returned user should be in the datastore"
+        User.findWhere(username: user.username).id == updated.id
     }
 }

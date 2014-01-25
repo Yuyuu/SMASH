@@ -1,8 +1,5 @@
 package com.smash.user
 
-import com.smash.user.Role
-import com.smash.user.User
-import com.smash.user.UserRole
 import grails.transaction.Transactional
 
 @Transactional
@@ -20,6 +17,16 @@ class UserManagementService {
         if (!user.hasErrors()) {
             UserRole.create user, mainRole
         }
+        user
+    }
+
+    /**
+     * Updates a user
+     * @param user
+     * @param mainRole
+     */
+    User updateUser(User user) {
+        user.save()
         user
     }
 }
