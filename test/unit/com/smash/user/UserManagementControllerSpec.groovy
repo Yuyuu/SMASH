@@ -202,4 +202,15 @@ class UserManagementControllerSpec extends Specification {
         response.redirectedUrl == '/userManagement/update'
         flash.message
     }
+
+    void "delete - Success"() {
+        when: "delete action is called"
+        controller.delete()
+
+        then: "deleteUser method of UserManagementService should be called one time on the current user"
+        1 * userManagementService.deleteUser(user)
+
+        then: "the user should be logged out"
+        response.redirectedUrl == '/logout'
+    }
 }

@@ -29,4 +29,13 @@ class UserManagementService {
         user.save()
         user
     }
+
+    /**
+     * Deletes a user account
+     * @param user
+     */
+    void deleteUser(User user) {
+        UserRole.removeAll(user)
+        user.delete()
+    }
 }

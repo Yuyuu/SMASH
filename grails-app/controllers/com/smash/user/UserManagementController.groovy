@@ -60,4 +60,11 @@ class UserManagementController {
             redirect action: 'update'
         }
     }
+
+    @Secured(['IS_AUTHENTICATED_FULLY'])
+    def delete() {
+        User user = (User) springSecurityService.currentUser
+        userManagementService.deleteUser(user)
+        redirect controller: 'logout'
+    }
 }
