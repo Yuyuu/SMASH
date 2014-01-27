@@ -11,11 +11,6 @@ import spock.lang.Specification
 class CommentControllerSpec extends Specification {
 
     void "test index"() {
-        when:
-        controller.index()
-
-        then:
-        response.redirectUrl.endsWith("index")
 
     }
 }
