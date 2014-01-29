@@ -15,6 +15,7 @@ abstract class MediaCut implements IMediaCut {
     static belongsTo = [owner: User]
 
     static constraints = {
-        title blank: false
+        title nullable: false, blank: false
+        owner nullable: false
     }
 }

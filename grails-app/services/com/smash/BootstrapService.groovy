@@ -15,36 +15,29 @@ class BootstrapService {
     DataSource dataSource
     UserManagementService userManagementService
 
-    Role adminRole
-    Role userRole
-
-    User userA
-    User userB
-
     def initializeRoles() {
         Sql sql = new Sql(dataSource)
-        adminRole = Role.findByAuthority(RoleEnum.ADMIN_ROLE.name())
+        def adminRole = Role.findByAuthority(RoleEnum.ADMIN_ROLE.name())
         if (!adminRole) {
             sql.executeInsert("insert into role(id, authority) values (1,${RoleEnum.ADMIN_ROLE.name()})")
-            adminRole = RoleEnum.ADMIN_ROLE.role
         }
-        userRole = Role.findByAuthority(RoleEnum.USER_ROLE.name())
+        def userRole = Role.findByAuthority(RoleEnum.USER_ROLE.name())
         if (!userRole) {
             sql.executeInsert("insert into role(id, authority) values (2,${RoleEnum.USER_ROLE.name()})")
-            userRole = RoleEnum.USER_ROLE.role
         }
     }
 
     def inializeDevUsers() {
-        userA = User.findByUsername("userA")
+        def role = RoleEnum.USER_ROLE.role
+        def userA = User.findByUsername("userA")
         if (!userA) {
             def user = new User(username: "userA", password: "1234", email: 'userA@smash.com')
-            userA = userManagementService.addUser(user, userRole)
+            userManagementService.addUser(user, role)
         }
-        userB = User.findByUsername("userB")
+        def userB = User.findByUsername("userB")
         if (!userB) {
             def user = new User(username: "userB", password: "1234", email: 'userB@smash.com')
-            userB = userManagementService.addUser(user, userRole)
+            userManagementService.addUser(user, role)
         }
     }
 }

@@ -15,6 +15,13 @@
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <sec:ifLoggedIn>
+                    <li>
+                        <a href="${createLink(controller: 'mediaCut')}">Media Cuts</a>
+                    </li>
+                </sec:ifLoggedIn>
+            </ul>
             <ul class="nav navbar-nav navbar-right">
                 <sec:ifLoggedIn>
                     <p class="navbar-text"><sec:username/></p>
@@ -23,6 +30,8 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="${createLink(controller: 'userManagement', action: 'update')}">Update</a></li>
+                            <li class="divider"></li>
+                            <li><a href="${createLink(controller: 'mediaCut', action: 'list', params: [userOnly: 'true'])}">My Media Cuts</a></li>
                         </ul>
                     </li>
 

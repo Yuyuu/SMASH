@@ -18,6 +18,15 @@
             <ul class="nav navbar-nav navbar-right">
                 <p class="navbar-text"><sec:username/></p>
 
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="${createLink(controller: 'userManagement', action: 'update')}">Update</a></li>
+                        <li class="divider"></li>
+                        <li><a href="${createLink(controller: 'mediaCut', action: 'list', params: [userOnly: 'true'])}">My Media Cuts</a></li>
+                    </ul>
+                </li>
+
                 <li>
                     <a href="${createLink(controller: 'logout')}">
                         <span class="glyphicon glyphicon-log-out"></span>
@@ -84,13 +93,9 @@
 
                         </fieldset>
                     </g:form>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
 </div>
 
