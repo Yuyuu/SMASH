@@ -1,6 +1,6 @@
 package com.smash.domain
 
-import com.smash.User
+import com.smash.user.User
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import spock.lang.Specification
@@ -36,7 +36,5 @@ class CommentSpec extends Specification {
             testValue   | result
             'test'      | true
             ''          | false
-
-
     }
 }
