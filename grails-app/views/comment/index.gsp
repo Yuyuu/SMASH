@@ -47,56 +47,43 @@
 
         <p>Short Media Sharing</p>
     </div>
-
-
-
 </div>
 
 <div class="container" style="width: 70%; margin: 0 auto;">
+    <div class="nav" role="navigation">
+        <ul>
+            <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
+            <li><g:link class="list" action="create"><g:message code="default.create.label" args="['Comment']"/></g:link></li>
+        </ul>
+    </div>
     <div class="row" style="margin-bottom: 5em; ">
         <div class="col-lg-6" style="text-align: center;">
 
-            <div class="nav" role="navigation">
-                <ul>
-                    <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-                </ul>
-            </div>
-
             <div id="list-comment" class="content scaffold-list" role="main">
-                <h1><g:message code="default.list.label" args="[entityName]"/></h1>
-                <g:if test="${flash.message}">
-                    <div class="message" role="status">${flash.message}</div>
-                </g:if>
+             <%--   <h1><g:message code="default.list.label" args="[entityName]"/></h1> --%>
                 <table>
                     <thead>
                     <tr>
                         <th><g:message code="comment.author.label" default="Author"/></th>
-
                         <th><g:message code="comment.media.label" default="Media"/></th>
-
-                        <g:sortableColumn property="text" title="${message(code: 'comment.text.label', default: 'Text')}"/>
-
-
+                        <g:sortableColumn property="text" title="${message(code: 'comment.text.label', default: 'Comment')}"/>
                     </tr>
                     </thead>
                     <tbody>
                     <g:if test="${!commentList.equals(null)}">
                         <g:each in="${commentList}" status="i" var="commentInstance">
                             <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-
+                              <%--  <td>${fieldValue(bean: commentInstance, field: "author")}</td>
+                                <td>${fieldValue(bean: commentInstance, field: "media")}</td> --%>
+                                <td>${commentInstance?.getAuthorUsername()}</td>
+                                <td>${commentInstance?.getMediaName()}</td>
                                 <td><g:link action="show"
-                                            id="${commentInstance}">${fieldValue(bean: commentInstance, field: "text")}</g:link></td>
-
-                                <td>${fieldValue(bean: commentInstance, field: "author")}</td>
-
-                                <td>${fieldValue(bean: commentInstance, field: "media")}</td>
-
+                                            id="${commentInstance?.id}">${fieldValue(bean: commentInstance, field: "text")}</g:link></td>
                             </tr>
                         </g:each>
                     </g:if>
                     </tbody>
                 </table>
-
                 <div class="pagination">
                     <g:paginate total="${commentInstanceCount ?: 0}"/>
                 </div>
