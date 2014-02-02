@@ -1,31 +1,29 @@
 package com.smash
 
-import com.smash.domain.Comment
-import com.smash.domain.MediaCut
-import com.smash.user.UserManagementService
-import smash.CommentService
-
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.annotation.Secured
+import smash.CommentService
+import com.smash.domain.Comment
+
 
 class CommentController {
 
     SpringSecurityService springSecurityService
-    UserManagementService userManagementService
-
-    def commentService
+    CommentService commentService
 
     @Secured(['IS_AUTHENTICATED_FULLY'])
     def index(){
-        render(view:"index")
+
+        def commentList = Comment.list()
+        def commentInstanceCount = commentList.size()
+        render(view:"index", model:[commentList: commentList, commentInstanceCount: commentInstanceCount])
     }
 
     @Secured(['IS_AUTHENTICATED_FULLY'])
     def create(){
 
         // only the current User can add comments to a mediaCut
-        def commentList = Comment.list()
-        [commentInstance: new Comment(params), commentList: commentList]
+       [commentInstance: new Comment(params)]
     }
 
     @Secured(['IS_AUTHENTICATED_FULLY'])
@@ -40,15 +38,34 @@ class CommentController {
     }
 
     @Secured(['IS_AUTHENTICATED_FULLY'])
-    def show(){
+    def show(Long id){
 
-        def commentList = Comment.getAll()
-        render(view:"show", [commentInstanceList: commentList])
+        def commentInstance = Comment.get(id)
+        //verify if Comment exists
+        if(!commentInstance){
+            redirect(action: "index")
+            return
+        }
+        render(view:"show", model: [commentInstance: commentInstance])
     }
 
+//future develop
     @Secured(['IS_AUTHENTICATED_FULLY'])
-    def edit(){
+    def delete(Long id){
 
-        render(view:"edit")
+        def commentInstance = Comment.get(id)
+        if(!commentInstance){
+            redirect(action: "index")
+            return
+        }
+        commentInstance = commentService.deleteInstance(commentInstance)
+        if(commentInstance.hasErrors()){
+            render(view:"show", model: [commentInstance: commentInstance])
+            return
+        }
+        flash.message = message(code: 'comment.deleted.message', args: [message(code: 'comment.label', default: 'Comment'), id])
+        redirect(action: "index")
     }
+
+
 }

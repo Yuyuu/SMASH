@@ -18,4 +18,12 @@ class Comment {
         text
     }
 
+    String getAuthorUsername(){
+        author.username
+    }
+
+    String getMediaName(){
+        media.name
+    }
+
 }
