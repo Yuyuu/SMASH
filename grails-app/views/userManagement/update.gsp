@@ -8,27 +8,6 @@
 
 <body>
 
-<div id="container" class="container-fluid" style="width: 98%; margin: 0 auto;">
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="navbar-header">
-            <g:link uri="/" class="navbar-brand">Smash</g:link>
-        </div>
-
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <p class="navbar-text"><sec:username/></p>
-
-                <li>
-                    <a href="${createLink(controller: 'logout')}">
-                        <span class="glyphicon glyphicon-log-out"></span>
-                        <g:message code="smash.Sign-out"/>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</div>
-
 <div class="container" style="width: 40%">
     <div class="panel panel-primary">
         <div class="panel-heading">Account information</div>
