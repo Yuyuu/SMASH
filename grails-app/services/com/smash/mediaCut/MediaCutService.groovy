@@ -1,6 +1,5 @@
 package com.smash.mediaCut
 
-import com.smash.MediaUtils;
 import com.smash.domain.MediaCut;
 import com.smash.domain.MediaType
 import com.smash.domain.Tag;
