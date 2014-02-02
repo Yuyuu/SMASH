@@ -1,3 +1,4 @@
+<%@ page import="com.smash.domain.Comment" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -70,8 +71,8 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <g:if test="${!commentList.equals(null)}">
-                        <g:each in="${commentList}" status="i" var="commentInstance">
+                    <g:if test="${!Comment.list().equals(null)}">
+                        <g:each in="${Comment.list()}" status="i" var="commentInstance">
                             <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
                               <%--  <td>${fieldValue(bean: commentInstance, field: "author")}</td>
                                 <td>${fieldValue(bean: commentInstance, field: "media")}</td> --%>
@@ -85,7 +86,7 @@
                     </tbody>
                 </table>
                 <div class="pagination">
-                    <g:paginate total="${commentInstanceCount ?: 0}"/>
+                    <g:paginate total="${Comment.list().size() ?: 0}"/>
                 </div>
             </div>
         </div>

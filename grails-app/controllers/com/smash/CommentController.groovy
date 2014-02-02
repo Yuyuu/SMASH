@@ -13,15 +13,11 @@ class CommentController {
 
     @Secured(['IS_AUTHENTICATED_FULLY'])
     def index(){
-
-        def commentList = Comment.list()
-        def commentInstanceCount = commentList.size()
-        render(view:"index", model:[commentList: commentList, commentInstanceCount: commentInstanceCount])
+        render(view:"index")
     }
 
     @Secured(['IS_AUTHENTICATED_FULLY'])
     def create(){
-
         // only the current User can add comments to a mediaCut
        [commentInstance: new Comment(params)]
     }
@@ -33,7 +29,6 @@ class CommentController {
             render(view: "create", model: [commentInstance: commentInstance])
             return
         }
-
         redirect(action: "show", id:commentInstance.id)
     }
 
@@ -49,7 +44,6 @@ class CommentController {
         render(view:"show", model: [commentInstance: commentInstance])
     }
 
-//future develop
     @Secured(['IS_AUTHENTICATED_FULLY'])
     def delete(Long id){
 
