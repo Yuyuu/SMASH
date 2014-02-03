@@ -24,6 +24,12 @@ class CommentController {
 
     @Secured(['IS_AUTHENTICATED_FULLY'])
     def save(){
+        if(!params.text){
+            flash.message = message(code: 'comment.text.not.inserted.message')
+            redirect(action:'create')
+            return
+
+        }
         def commentInstance = commentService.createAndSave(params)
         if (commentInstance.hasErrors()) {
             render(view: "create", model: [commentInstance: commentInstance])
@@ -60,6 +66,4 @@ class CommentController {
         flash.message = message(code: 'comment.deleted.message', args: [message(code: 'comment.label', default: 'Comment'), id])
         redirect(action: "index")
     }
-
-
 }

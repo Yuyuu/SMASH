@@ -11,29 +11,21 @@ import grails.test.mixin.Mock
 /**
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
-@Mock([CommentService,SpringSecurityService,Comment])
+@Mock([SpringSecurityService,Comment])
 @TestFor(CommentController)
 class CommentControllerSpec extends Specification {
-
-        CommentService commentService
         SpringSecurityService springSecurityService
         User user
         Comment comment
 
     def setup() {
-        commentService = Mock(CommentService)
-        controller.commentService = commentService
-
         springSecurityService = Mock(SpringSecurityService)
         springSecurityService.currentUser >> user
         controller.springSecurityService = springSecurityService
-
         comment = Mock(Comment)
-
     }
 
     void "test index"(){
-
         when:" the index function is called"
             controller.index()
 
@@ -44,42 +36,26 @@ class CommentControllerSpec extends Specification {
     void "test create"(){
         when:"the create function is called"
             controller.create()
-
         then:
             view == null
             response.sendRedirect("/comment/create")
     }
 
-    void "test save"(){
+    void "test save with errors"(){
         given:
-            String viewName
-        and:
-            commentService.createAndSave(params) >> comment
+            params.text = null
         when:
             controller.save()
-
         then:
-            response.redirectedUrl == viewName
-
-        where:
-            viewName        |   params.text
-        "/comment/show"     |   "test"
-        "/comment/create"   |   ""
-
+           response.redirectedUrl == "/comment/create"
     }
 
-    void "test show"(){
+    void "test show - id not found"(){
         given:
             Long id
-            String viewTemp
         when:
             controller.show(id)
         then:
-            view == viewTemp
-        where:
-            viewTemp            |   id
-            "/comment/show"     |    1
-            "/comment/index"    |    0
-
+            response.redirectedUrl == "/comment/index"
     }
 }
