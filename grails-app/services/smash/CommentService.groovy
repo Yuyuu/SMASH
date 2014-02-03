@@ -21,7 +21,7 @@ class CommentService {
             mediaObj = new MediaCut(name:"testCut", description: 'no mediaCut yet', duration: 10, type: MediaType.FILM)
         mediaObj.save()
 
-        def user = User.findByUsername(springSecurityService.getPrincipal().username)
+        User user = springSecurityService.currentUser
         def newComment = new Comment( text: properties.text,
                                       author: user,
                                       media: mediaObj)
