@@ -44,4 +44,13 @@ class CommentServiceIntegrationSpec extends Specification {
                    commentFound != null*/
     }
 
+    def "delete existing comment test"(){
+            given:
+                Comment commentToDelete = commentCreated
+            when:
+                commentService.deleteInstance(commentToDelete)
+            then:
+                Comment.get(commentToDelete.id) == null
+    }
+
 }
