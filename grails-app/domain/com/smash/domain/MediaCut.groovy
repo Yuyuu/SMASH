@@ -1,6 +1,6 @@
 package com.smash.domain
 
-abstract class MediaCut {
+class MediaCut {
 	String name;
 	String description;
 	Long duration;
