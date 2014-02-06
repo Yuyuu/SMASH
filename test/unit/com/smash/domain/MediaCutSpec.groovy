@@ -1,5 +1,6 @@
 package com.smash.domain
 
+import com.smash.media.MediaCut
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 
