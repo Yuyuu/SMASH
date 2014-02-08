@@ -10,7 +10,7 @@ class ImageController {
     SpringSecurityService springSecurityService
     ImageService imageService
 
-    @Secured(['IS_AUTHENTICATED_FULLY'])
+    @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
     def show(Long id) {
         if (!id) {
             redirect controller: 'mediaCut', action: 'list'
@@ -25,7 +25,7 @@ class ImageController {
         [image: image]
     }
 
-    @Secured(['IS_AUTHENTICATED_FULLY'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def create() {
         if (!request.post) {
             def copy = [:] + (flash.chainedParams ?: [:])
@@ -44,7 +44,7 @@ class ImageController {
         redirect(action: 'show', id: image.id)
     }
 
-    @Secured(['IS_AUTHENTICATED_FULLY'])
+    @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
     def showRaw(Long id) {
         if (!id) {
             redirect controller: 'mediaCut', action: 'list'

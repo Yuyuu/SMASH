@@ -7,10 +7,6 @@ import grails.transaction.Transactional
 class MediaCutService {
 
     List<MediaCut> list(User user, boolean userOnly = false) {
-        if (!user) {
-            throw new IllegalArgumentException("User must not be null")
-        }
-
         List<MediaCut> mediaCutList
         def criteria = MediaCut.createCriteria()
 

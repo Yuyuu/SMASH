@@ -17,14 +17,6 @@ class MediaCutServiceIntegrationSpec extends Specification {
         ).save(failOnError: true)
     }
 
-    def "list - User is null"() {
-        when: "calling list method with null user"
-        mediaCutService.list(null)
-
-        then: "an IllegaalArgumentException should be thrown"
-        thrown(IllegalArgumentException)
-    }
-
     def "list - List for user"() {
         given: "a new user"
         User userB = new User(

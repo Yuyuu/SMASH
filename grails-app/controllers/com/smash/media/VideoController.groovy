@@ -13,7 +13,7 @@ class VideoController {
     VideoService videoService
 	TagService tagService
 
-    @Secured(['IS_AUTHENTICATED_FULLY'])
+    @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
     def show(Long id) {
         if (!id) {
             redirect controller: 'mediaCut', action: 'list'
@@ -28,7 +28,7 @@ class VideoController {
         [video: video]
     }
 
-    @Secured(['IS_AUTHENTICATED_FULLY'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def create() {
         if (!request.post) {
             def copy = [:] + (flash.chainedParams ?: [:])
@@ -65,7 +65,7 @@ class VideoController {
                 videoKey: params.videoKey,
                 startTime: startTime,
                 endTime: endTime,
-				tags: tags
+				tags: tagList
         )
 		
         video = videoService.addVideo((User) springSecurityService.currentUser, video)
