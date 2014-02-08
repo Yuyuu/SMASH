@@ -118,6 +118,12 @@
                             </div>
                             <span class="help-block">Maximum video duration: ${Video.MAXIMUM_DURATION}s</span>
                         </div>
+                        
+                        <div class="form-group">
+                        	<label for="inputTags">Tags:</label>
+                            <input type="text" class="form-control" id="inputTags" name="tags"
+                                   placeholder="Tags separated by spaces"/>
+                        </div>
 
                         <button type="submit" class="btn btn-primary">Save &raquo;</button>
                     </fieldset>

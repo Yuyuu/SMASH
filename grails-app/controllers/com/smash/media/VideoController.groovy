@@ -1,6 +1,9 @@
 package com.smash.media
 
+import com.smash.domain.Tag
+import com.smash.tag.TagService;
 import com.smash.user.User
+
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.annotation.Secured
 
@@ -8,6 +11,7 @@ class VideoController {
 
     SpringSecurityService springSecurityService
     VideoService videoService
+	TagService tagService
 
     @Secured(['IS_AUTHENTICATED_FULLY'])
     def show(Long id) {
@@ -46,14 +50,24 @@ class VideoController {
             redirect action: 'create'
             return
         }
+		
+		String tags = params.tags;
+		List<Tag> tagList = new ArrayList<Tag>();
+		if(tags != null && !tags.empty) {
+			for (tag in tags.split(" ")) {
+				tagList.add(tagService.createTag(new Tag(name: tag)));
+			}
+		}
 
         Video video = new Video(
                 title: params.title,
                 description: params.description,
                 videoKey: params.videoKey,
                 startTime: startTime,
-                endTime: endTime
+                endTime: endTime,
+				tags: tags
         )
+		
         video = videoService.addVideo((User) springSecurityService.currentUser, video)
         if (!video || video.hasErrors()) {
             return [video: video]
