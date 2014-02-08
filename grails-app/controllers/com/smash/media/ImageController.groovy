@@ -22,7 +22,7 @@ class ImageController {
             redirect controller: 'mediaCut', action: 'list'
             return
         }
-        [image: image]
+        [image: image, user: (User) springSecurityService.currentUser]
     }
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED'])

@@ -86,7 +86,7 @@
     </div>
 
     <g:each in="${mediacutRepresentationList}" var="mediacut">
-        <div class="well well-sm">
+        <div class="well well-sm mediacut-thumbnail">
             <div class="row">
                 <div class="col-md-6">
                     <span class="label label-primary">${mediacut.class.simpleName}</span>
@@ -97,6 +97,20 @@
                     </div>
                 </g:if>
             </div>
+            <g:if test="${mediacut.owner == user}">
+                <div class="pull-right btn-mediacuts-action">
+                    <div class="btn-group">
+                        <button id="btn-delete-mediacut"
+                           data-toggle="modal"
+                           data-target="#deleteMediaCutModal"
+                           class="btn btn-default btn-xs"
+                           onclick="$('#delete-modal-id').val('${mediacut.id}');
+                           $('#myModalLabel').text('Delete Media Cut: ${mediacut.title}')">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </g:if>
             <a href="${createLink(controller: mediacut.class.simpleName.toLowerCase(), action: 'show', params: [id: mediacut.id])}">
                 <h4>${mediacut.title}</h4>
             </a>
@@ -106,6 +120,28 @@
             </g:if>
         </div>
     </g:each>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteMediaCutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <g:form controller="mediaCut" action="delete" style="margin: 0">
+        <div class="modal-content">
+            <input type="hidden" name="id" id="delete-modal-id"/>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Delete Media Cut</h4>
+            </div>
+            <div class="modal-body">
+                This operation cannot be undone.<br>Are you sure you want to delete this Media Cut ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+        </g:form>
+    </div>
 </div>
 
 </body>

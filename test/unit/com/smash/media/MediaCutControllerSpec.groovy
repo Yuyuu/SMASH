@@ -56,4 +56,40 @@ class MediaCutControllerSpec extends Specification {
         res.mediacutRepresentationList == list
         !res.userOnly
     }
+
+    def "delete - MediaCut does not exist"() {
+        given: "a stubbed current user"
+        springSecurityService.currentUser >> Mock(User)
+
+        and: "mediaCutService returns null"
+        mediaCutService.retrieveMediaCutById((Long) _) >> null
+
+        when: "calling delete method of MediaCutService"
+        controller.delete(1)
+
+        then: "deleteMediaCut method of MediaCutService should not be called"
+        0 * mediaCutService.deleteMediaCut((User) _, (MediaCut) _)
+
+        then: "the user should be redirected to the following url with a message"
+        response.redirectedUrl == '/mediaCut/list?userOnly=true'
+        flash.message
+    }
+
+    def "delete - Success"() {
+        given: "a stubbed current user"
+        springSecurityService.currentUser >> Mock(User)
+
+        and: "mediaCutService returns null"
+        mediaCutService.retrieveMediaCutById((Long) _) >> Mock(MediaCut)
+
+        when: "calling delete method of MediaCutService"
+        controller.delete(1)
+
+        then: "deleteMediaCut method of MediaCutService should be called one time"
+        1 * mediaCutService.deleteMediaCut((User) _, (MediaCut) _)
+
+        then: "the user should be redirected to the following url"
+        response.redirectedUrl == '/mediaCut/list?userOnly=true'
+        !flash.message
+    }
 }

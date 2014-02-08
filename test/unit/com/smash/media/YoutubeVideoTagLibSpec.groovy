@@ -13,7 +13,7 @@ class YoutubeVideoTagLibSpec extends Specification {
         String key = "key"
 
         and: "a tag"
-        String tag = "<iframe width='$width' height='$height' src='//www.youtube-nocookie.com/embed/$key?rel=0' frameborder='0' allowfullscreen=''/>"
+        String tag = "<iframe width='$width' height='$height' src='//www.youtube-nocookie.com/embed/$key?rel=0' frameborder='0' allowfullscreen=''></iframe>"
 
         when: "calling tag with default attributes"
         def tag1 = tagLib.video(videoKey : 'key')
