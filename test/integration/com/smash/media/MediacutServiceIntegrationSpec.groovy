@@ -3,9 +3,9 @@ package com.smash.media
 import com.smash.user.User
 import spock.lang.Specification
 
-class MediacutServiceIntegrationSpec extends Specification {
+class MediaCutServiceIntegrationSpec extends Specification {
 
-    MediacutService mediacutService
+    MediaCutService mediaCutService
 
     User user
 
@@ -19,7 +19,7 @@ class MediacutServiceIntegrationSpec extends Specification {
 
     def "list - User is null"() {
         when: "calling list method with null user"
-        mediacutService.list(null)
+        mediaCutService.list(null)
 
         then: "an IllegaalArgumentException should be thrown"
         thrown(IllegalArgumentException)
@@ -52,7 +52,7 @@ class MediacutServiceIntegrationSpec extends Specification {
         ).save(failOnError: true)
 
         when: "calling list method userOnly flag set to true"
-        def list = mediacutService.list(user, true)
+        def list = mediaCutService.list(user, true)
 
         then: "only the videos of the passed user should be returned"
         list.size() == 1
@@ -86,7 +86,7 @@ class MediacutServiceIntegrationSpec extends Specification {
         ).save(failOnError: true)
 
         when: "calling list method with userOnly flag set to false"
-        def list = mediacutService.list(user)
+        def list = mediaCutService.list(user)
 
         then: "all the mediacuts should be returned"
         list.size() == 2

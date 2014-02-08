@@ -71,7 +71,7 @@
                 </button>
                 <ul class="dropdown-menu text-left" role="menu">
                     <li><a href="${createLink(controller: 'video', action: 'create')}">Video</a></li>
-                    <li><a href="#">Image</a></li>
+                    <li><a href="${createLink(controller: 'image', action: 'create')}">Image</a></li>
                 </ul>
             </div>
         </div>
