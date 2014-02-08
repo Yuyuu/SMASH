@@ -25,7 +25,7 @@ class VideoController {
             redirect controller: 'mediaCut', action: 'list'
             return
         }
-        [video: video]
+        [video: video, user: (User) springSecurityService.currentUser]
     }
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED'])

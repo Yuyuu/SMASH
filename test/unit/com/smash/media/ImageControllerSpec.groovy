@@ -51,7 +51,7 @@ class ImageControllerSpec extends Specification {
         def model = controller.show(1)
 
         then: "the following map should be returned"
-        model.size() == 1
+        model.size() == 2
         model.image == image
     }
 

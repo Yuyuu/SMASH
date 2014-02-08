@@ -23,7 +23,7 @@ class YoutubeVideoTagLib {
                     src: "//www.youtube-nocookie.com/embed/${videoKey}${urlEnding}",
                     frameborder: "0",
                     allowfullscreen: null
-            )
+            ) {}
         }
 
         def xml = new StreamingMarkupBuilder().bind(vd)

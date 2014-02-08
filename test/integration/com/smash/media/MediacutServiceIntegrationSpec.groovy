@@ -1,6 +1,7 @@
 package com.smash.media
 
 import com.smash.user.User
+import org.springframework.security.access.AccessDeniedException
 import spock.lang.Specification
 
 class MediaCutServiceIntegrationSpec extends Specification {
@@ -15,6 +16,24 @@ class MediaCutServiceIntegrationSpec extends Specification {
                 email: "email@email.com",
                 password: "pass"
         ).save(failOnError: true)
+    }
+
+    def retrieveMediaCutById() {
+        given: "a saved video"
+        Video video = new Video(
+                title: "title",
+                description: "description",
+                owner: user,
+                videoKey: "key",
+                startTime: 10,
+                endTime: 20
+        ).save(failOnError: true)
+
+        expect: "the previous video to be returned when passing the right id"
+        mediaCutService.retrieveMediaCutById(video.id) == video
+
+        and: "null to be returned when the id does not exist"
+        mediaCutService.retrieveMediaCutById(video.id + 1) == null
     }
 
     def "list - List for user"() {
@@ -82,5 +101,55 @@ class MediaCutServiceIntegrationSpec extends Specification {
 
         then: "all the mediacuts should be returned"
         list.size() == 2
+    }
+    def "deleteMediaCut - User is null"() {
+        when: "calling deleteMediaCut with a null user"
+        mediaCutService.deleteMediaCut(null, null)
+
+        then: "an IllegalArgumentException should be thrown"
+        thrown(IllegalArgumentException)
+    }
+
+    def "deleteMediaCut - Access denied"() {
+        given: "a saved video"
+        Video video = new Video(
+                title: "title",
+                description: "description",
+                owner: user,
+                videoKey: "key",
+                startTime: 10,
+                endTime: 20
+        ).save(failOnError: true)
+
+        and: "a user"
+        User userB = new User(
+                username: "usernameB",
+                email: "emailB@email.com",
+                password: "pass"
+        ).save(failOnError: true)
+
+        when: "the user trying to delete the video is not the owner"
+        mediaCutService.deleteMediaCut(userB, video)
+
+        then: "an AccessDeniedException should be thrown"
+        thrown(AccessDeniedException)
+    }
+
+    def "deleteMediaCut - Success"() {
+        given: "a saved video"
+        Video video = new Video(
+                title: "title",
+                description: "description",
+                owner: user,
+                videoKey: "key",
+                startTime: 10,
+                endTime: 20
+        ).save(failOnError: true)
+
+        when: "the owner is trying to delete the video"
+        mediaCutService.deleteMediaCut(user, video)
+
+        then: "the video should be removed from the datastore"
+        Video.findWhere(id: video.id) == null
     }
 }
