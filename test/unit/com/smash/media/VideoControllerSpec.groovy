@@ -35,7 +35,7 @@ class VideoControllerSpec extends Specification {
     }
 
     def "show - Video not found"() {
-        given: "a stubbed videoService"
+        given: "a stubbed imageService"
         videoService.retrieveVideoById((Long) _) >> null
 
         when: "calling action show"
@@ -50,7 +50,7 @@ class VideoControllerSpec extends Specification {
         given: "a mocked video"
         Video video = Mock(Video)
 
-        and: "a stubbed videoService"
+        and: "a stubbed imageService"
         videoService.retrieveVideoById((Long) _) >> video
 
         when: "calling action show"
@@ -156,7 +156,7 @@ class VideoControllerSpec extends Specification {
         User user = Mock(User)
         springSecurityService.currentUser >> user
 
-        and: "a stubbed videoService"
+        and: "a stubbed imageService"
         videoService.addVideo(user, (Video) _) >> video
 
         when: "calling create action"
@@ -190,7 +190,7 @@ class VideoControllerSpec extends Specification {
         User user = Mock(User)
         springSecurityService.currentUser >> user
 
-        and: "a stubbed videoService"
+        and: "a stubbed imageService"
         videoService.addVideo(user, (Video) _) >> video
 
         when: "calling create action"

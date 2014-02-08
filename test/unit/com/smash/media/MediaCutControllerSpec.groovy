@@ -8,14 +8,14 @@ import spock.lang.Specification
 @TestFor(MediaCutController)
 class MediaCutControllerSpec extends Specification {
 
-    MediacutService mediacutService
+    MediaCutService mediaCutService
     SpringSecurityService springSecurityService
 
     def setup() {
-        mediacutService = Mock(MediacutService)
+        mediaCutService = Mock(MediaCutService)
         springSecurityService = Mock(SpringSecurityService)
 
-        controller.mediacutService = mediacutService
+        controller.mediaCutService = mediaCutService
         controller.springSecurityService = springSecurityService
     }
 
@@ -27,7 +27,7 @@ class MediaCutControllerSpec extends Specification {
         springSecurityService.currentUser >> Mock(User)
 
         and: "list method of mediacutService returns the mocked list"
-        mediacutService.list((User) _, (Boolean) _) >> list
+        mediaCutService.list((User) _, (Boolean) _) >> list
 
         when: "calling list action with userOnly = true"
         def res = controller.list(true)
