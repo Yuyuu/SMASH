@@ -8,6 +8,8 @@ class UserManagementController {
     SpringSecurityService springSecurityService
     UserManagementService userManagementService
 
+    static allowedMethods = [signup: 'POST']
+
     @Secured(['ROLE_ANONYMOUS'])
     def signup() {
         Role mainRole = RoleEnum.USER_ROLE.role

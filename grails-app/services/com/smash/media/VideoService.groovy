@@ -16,5 +16,6 @@ class VideoService {
         }
         video.owner = user
         video.save()
+        video
     }
 }

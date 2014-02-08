@@ -14,8 +14,13 @@ class Video extends MediaCut {
     static constraints = {
         videoKey nullable: false, blank: false
         startTime nullable: false
-        endTime validator: { val, video ->
-            return (val != 0) && (val - video.startTime <= MAXIMUM_DURATION)
+        endTime nullable: false, validator: { val, video ->
+            if (val == 0) {
+                return false
+            }
+            if (val - video.startTime > MAXIMUM_DURATION) {
+                return ["smash.video.duration.too-long", MAXIMUM_DURATION]
+            }
         }
     }
 }

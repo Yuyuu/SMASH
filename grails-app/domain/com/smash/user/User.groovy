@@ -1,5 +1,7 @@
 package com.smash.user
 
+@SuppressWarnings("GrailsDomainWithServiceReference")
+// needed by Spring Security Core
 class User {
 
 	transient springSecurityService
