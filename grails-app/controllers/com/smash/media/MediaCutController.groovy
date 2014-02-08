@@ -6,7 +6,7 @@ import grails.plugin.springsecurity.annotation.Secured
 
 class MediaCutController {
 
-    MediacutService mediacutService
+    MediaCutService mediaCutService
     SpringSecurityService springSecurityService
 
     static defaultAction = "list"
@@ -15,7 +15,7 @@ class MediaCutController {
     def list(boolean userOnly) {
         User user = (User) springSecurityService.currentUser
         return [
-                mediacutRepresentationList: mediacutService.list(user, userOnly),
+                mediacutRepresentationList: mediaCutService.list(user, userOnly),
                 userOnly: userOnly
         ]
     }

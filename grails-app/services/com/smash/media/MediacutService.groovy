@@ -4,7 +4,7 @@ import com.smash.user.User
 import grails.transaction.Transactional
 
 @Transactional
-class MediacutService {
+class MediaCutService {
 
     List<MediaCut> list(User user, boolean userOnly = false) {
         if (!user) {

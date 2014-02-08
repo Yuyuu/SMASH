@@ -6,7 +6,6 @@ class YoutubeVideoTagLib {
     static namespace = "youtube"
     static defaultEncodeAs = 'html'
 
-    // TODO Spec
     def video = { attrs ->
         def videoKey = attrs['videoKey']
         def start = attrs['start']
