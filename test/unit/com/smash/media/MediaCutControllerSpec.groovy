@@ -19,12 +19,13 @@ class MediaCutControllerSpec extends Specification {
         controller.springSecurityService = springSecurityService
     }
 
-    def "list"() {
+    def "list - Default logged in user"() {
         given: "a mocked list"
         List list = Mock(List)
 
         and: "a stubbed current user"
         springSecurityService.currentUser >> Mock(User)
+        springSecurityService.isLoggedIn() >> true
 
         and: "list method of mediacutService returns the mocked list"
         mediaCutService.list((User) _, (Boolean) _) >> list
@@ -35,5 +36,24 @@ class MediaCutControllerSpec extends Specification {
         then: "the following map should be returned"
         res.mediacutRepresentationList == list
         res.userOnly
+    }
+
+    def "list - Default anonymous"() {
+        given: "a mocked list"
+        List list = Mock(List)
+
+        and: "a stubbed current user"
+        springSecurityService.currentUser >> Mock(User)
+        springSecurityService.isLoggedIn() >> false
+
+        and: "list method of mediacutService returns the mocked list"
+        mediaCutService.list((User) _, (Boolean) _) >> list
+
+        when: "calling list action with userOnly = true"
+        def res = controller.list(true)
+
+        then: "the following map should be returned"
+        res.mediacutRepresentationList == list
+        !res.userOnly
     }
 }
