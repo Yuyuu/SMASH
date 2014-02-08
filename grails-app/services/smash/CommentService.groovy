@@ -1,9 +1,8 @@
 package smash
 
-import com.smash.domain.MediaType
 import com.smash.user.User
 import com.smash.domain.Comment
-import com.smash.domain.MediaCut
+import com.smash.media.MediaCut
 import grails.transaction.Transactional
 
 @Transactional
@@ -17,8 +16,7 @@ class CommentService {
         def mediaObj
         if(MediaCut.findById(properties.mediaId)){
             mediaObj = MediaCut.findById(properties.mediaId)
-        }else
-            mediaObj = new MediaCut(name:"testCut", description: 'no mediaCut yet', duration: 10, type: MediaType.FILM)
+        }
         mediaObj.save()
 
         User user = springSecurityService.currentUser
