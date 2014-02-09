@@ -1,4 +1,4 @@
-package smash
+package com.smash
 
 import com.smash.user.User
 import com.smash.domain.Comment
@@ -12,19 +12,12 @@ class CommentService {
 
     def Comment createAndSave(Map<Object, Object> properties){
 
-        // there is no mediaCut
-        def mediaObj
-        if(MediaCut.findById(properties.mediaId)){
-            mediaObj = MediaCut.findById(properties.mediaId)
-        }
-        mediaObj.save()
-
         User user = springSecurityService.currentUser
         def newComment = new Comment( text: properties.text,
-                                      author: user,
-                                      media: mediaObj)
+                author: user,
+                media: MediaCut.findById(properties.media))
 
-        newComment.save(flush: true)
+        newComment.save(flush:false)
         newComment
     }
 

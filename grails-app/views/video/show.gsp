@@ -45,11 +45,20 @@
 </div>
 
 <div class="container" style="width: 60%">
+    <g:if test='${flash.message}'>
+        <div class='alert alert-danger alert-dismissable' style="text-align: left">
+            ${flash.message}
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        </div>
+    </g:if>
     <a href="${createLink(controller: 'mediaCut', action: 'list', params: [userOnly: true])}" class="btn btn-primary">&laquo; Back to list</a>
+    <a href="${createLink(controller: 'comment', action: 'create', params: [media: video.id])}" class="btn btn-primary">&raquo; Add comment</a>
+    <g:if test="${video.comments}">
+        <a href="${createLink(controller: 'comment', action: 'index', params: [media: video.id])}" class="btn btn-primary">Show comments</a>
+    </g:if>
     <h1>${video.title}</h1>
     <blockquote>${video.description}</blockquote>
     <youtube:video videoKey="${video.videoKey}" start="${video.startTime}" end="${video.endTime}" />
 </div>
-
 </body>
 </html>

@@ -96,6 +96,9 @@
             <g:if test="${mediacut.class == Video}">
                 <p>Duration: ${((Video) mediacut).endTime - ((Video) mediacut).startTime}s</p>
             </g:if>
+            <g:if test="${mediacut.comments}">
+                <p>Comments: ${mediacut.comments.size()}</p>
+            </g:if>
         </div>
     </g:each>
 </div>

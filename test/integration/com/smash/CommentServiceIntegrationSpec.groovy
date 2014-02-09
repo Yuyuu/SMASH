@@ -1,11 +1,9 @@
 package com.smash
 
 import com.smash.domain.Comment
-import com.smash.domain.MediaCut
-import com.smash.domain.MediaType
+import com.smash.media.MediaCut
+import com.smash.media.Video
 import com.smash.user.User
-import grails.plugin.springsecurity.SpringSecurityService
-import smash.CommentService
 import spock.lang.*
 
 class CommentServiceIntegrationSpec extends Specification {
@@ -19,7 +17,7 @@ class CommentServiceIntegrationSpec extends Specification {
     def setup() {
         commentController = new CommentController()
         currentUser = commentService.springSecurityService.currentUser
-        mediaCut = new MediaCut(name: "media", type: MediaType.FILM)
+        mediaCut = new Video()
         mediaCut.save()
         commentCreated = new Comment(text: "test d'integration CommentService",
                                      media: mediaCut,

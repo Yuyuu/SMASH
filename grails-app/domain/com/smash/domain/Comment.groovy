@@ -22,8 +22,4 @@ class Comment {
         author.username
     }
 
-    String getMediaName(){
-        media.name
-    }
-
 }

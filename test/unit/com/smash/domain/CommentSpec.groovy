@@ -1,5 +1,6 @@
 package com.smash.domain
 
+import com.smash.media.MediaCut
 import com.smash.user.User
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor

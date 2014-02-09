@@ -1,8 +1,9 @@
 package com.smash
 
+import com.smash.media.MediaCut
+import com.smash.media.Video
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.annotation.Secured
-import smash.CommentService
 import com.smash.domain.Comment
 
 
@@ -13,57 +14,81 @@ class CommentController {
 
     @Secured(['IS_AUTHENTICATED_FULLY'])
     def index(){
-        render(view:"index")
+        render(view:"index", model: [media:params.media])
     }
 
-    @Secured(['IS_AUTHENTICATED_FULLY'])
+   @Secured(['IS_AUTHENTICATED_FULLY'])
     def create(){
-        // only the current User can add comments to a mediaCut
-       [commentInstance: new Comment(params)]
+       [commentInstance:new Comment(params)]
     }
 
     @Secured(['IS_AUTHENTICATED_FULLY'])
-    def save(){
-        if(!params.text){
-            flash.message = message(code: 'comment.text.not.inserted.message')
+    def save(Comment commentInstance){
+
+        if(!params.containsKey('text')){
+            flash.message = message(code: 'comment.text.not.inserted')
             redirect(action:'create')
             return
-
         }
-        def commentInstance = commentService.createAndSave(params)
+        if(!params.containsKey('media')){
+            flash.message = message(code: 'comment.media.not.found')
+            redirect(action:'create')
+            return
+        }
+
+        commentInstance = commentService.createAndSave(params)
         if (commentInstance.hasErrors()) {
             render(view: "create", model: [commentInstance: commentInstance])
             return
         }
-        redirect(action: "show", id:commentInstance.id)
+
+        if(commentInstance.media.hasProperty('videoKey')){
+            def mediaCut = MediaCut.findById(commentInstance.media.id)
+            redirect(controller:"Video", action: "show", id:mediaCut.id)
+        }else
+            redirect( controller:'MediaCut', action: "list", userOnly:true)
     }
 
     @Secured(['IS_AUTHENTICATED_FULLY'])
-    def show(Long id){
+    def show(){
 
-        def commentInstance = Comment.get(id)
-        //verify if Comment exists
-        if(!commentInstance){
-            redirect(action: "index")
+        if(!params.containsKey('commentId')){
+            redirect( controller:'com.smash.media.MediaCutController', action: "list", userOnly:true)
             return
         }
-        render(view:"show", model: [commentInstance: commentInstance])
+        def commentInstance = Comment.findById(params.commentId)
+        if(!commentInstance){
+            redirect( controller:'com.smash.media.MediaCutController', action: "list", userOnly:true)
+            return
+        }
+      //  respond commentInstance
+        render(view:"show", model: [commentInstance: commentInstance, currentUser: springSecurityService.currentUser])
     }
 
     @Secured(['IS_AUTHENTICATED_FULLY'])
-    def delete(Long id){
+    def delete(Comment commentInstance){
 
-        def commentInstance = Comment.get(id)
         if(!commentInstance){
-            redirect(action: "index")
+            redirect( controller:'MediaCut', action: "list", userOnly:true)
             return
         }
         commentInstance = commentService.deleteInstance(commentInstance)
         if(commentInstance.hasErrors()){
-            render(view:"show", model: [commentInstance: commentInstance])
-            return
+            flash.message = message(code: 'comment.not.deleted.message', args: [message(code: 'comment.label', default: 'Comment'), commentInstance.text])
+            if(commentInstance.media.hasProperty('videoKey')){
+                redirect(controller:"Video", action: "show", id:commentInstance.media.id)
+                return
+            }else{
+                redirect( controller:'MediaCut', action: "list", userOnly:true)
+                return
+            }
+
         }
-        flash.message = message(code: 'comment.deleted.message', args: [message(code: 'comment.label', default: 'Comment'), id])
-        redirect(action: "index")
+        flash.message = message(code: 'comment.deleted.message', args: [message(code: 'comment.label', default: 'Comment'), commentInstance.text])
+        if(commentInstance.media.hasProperty('videoKey')){
+            redirect(controller:"Video", action: "show", id:commentInstance.media.id)
+        }else{
+            redirect( controller:'MediaCut', action: "list", userOnly:true)
+        }
     }
 }

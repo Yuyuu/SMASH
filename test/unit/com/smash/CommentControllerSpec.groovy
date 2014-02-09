@@ -4,7 +4,6 @@ import com.smash.domain.Comment
 import com.smash.user.User
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.test.mixin.TestFor
-import smash.CommentService
 import spock.lang.Specification
 import grails.test.mixin.Mock
 
