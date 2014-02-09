@@ -102,6 +102,62 @@ class MediaCutServiceIntegrationSpec extends Specification {
         then: "all the mediacuts should be returned"
         list.size() == 2
     }
+
+    def "updateMediaCut - User is null"() {
+        when: "calling updateMediaCut with a null user"
+        mediaCutService.updateMediaCut(null, null)
+
+        then: "an IllegalArgumentException should be thrown"
+        thrown(IllegalArgumentException)
+    }
+
+    def "updateMediaCut - Access denied"() {
+        given: "a saved video"
+        Video video = new Video(
+                title: "title",
+                description: "description",
+                owner: user,
+                videoKey: "key",
+                startTime: 10,
+                endTime: 20
+        ).save(failOnError: true)
+
+        and: "a user"
+        User userB = new User(
+                username: "usernameB",
+                email: "emailB@email.com",
+                password: "pass"
+        ).save(failOnError: true)
+
+        when: "the user trying to update the video is not the owner"
+        mediaCutService.updateMediaCut(userB, video)
+
+        then: "an AccessDeniedException should be thrown"
+        thrown(AccessDeniedException)
+    }
+
+    def "updateMediaCut - Success"() {
+        given: "a saved video"
+        Video video = new Video(
+                title: "title",
+                description: "description",
+                owner: user,
+                videoKey: "key",
+                startTime: 10,
+                endTime: 20
+        ).save(failOnError: true)
+
+        when: "the owner is trying to delete the video"
+        video.title = "updated"
+        video.description = "updated"
+        def res = mediaCutService.updateMediaCut(user, video)
+
+        then: "the video should not have errors and be updated"
+        Video.findWhere(id: video.id) == res
+        res.title == "updated"
+        res.description == "updated"
+    }
+
     def "deleteMediaCut - User is null"() {
         when: "calling deleteMediaCut with a null user"
         mediaCutService.deleteMediaCut(null, null)

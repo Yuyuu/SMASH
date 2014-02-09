@@ -67,7 +67,6 @@ class VideoController {
                 endTime: endTime,
 				tags: tagList
         )
-		
         video = videoService.addVideo((User) springSecurityService.currentUser, video)
         if (!video || video.hasErrors()) {
             return [video: video]

@@ -37,6 +37,25 @@ class MediaCutService {
     }
 
     /**
+     * Updates a Media Cut
+     * @param user
+     * @param mediaCut
+     * @return
+     * @throws AccessDeniedException if the media cut does not belong to the given user
+     */
+    MediaCut updateMediaCut(User user, MediaCut mediaCut) {
+        if (!user) {
+            throw new IllegalArgumentException("User must not be null")
+        }
+        if (mediaCut.owner != user) {
+            throw new AccessDeniedException("Current user is not allowed to access this resource")
+        }
+
+        mediaCut.save()
+        mediaCut
+    }
+
+    /**
      * Deletes a Media Cut from the datastore
      * @param user
      * @param mediaCut
