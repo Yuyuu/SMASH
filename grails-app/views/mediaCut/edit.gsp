@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="layout" content="smash"/>
-    <title>New Media Cut</title>
+    <title>Edit Media Cut</title>
 </head>
 
 <body>
@@ -46,8 +46,12 @@
 </div>
 
 <div class="container" style="width: 50%">
+    <div class="page-header">
+    <a href="${createLink(controller: 'mediaCut', action: 'list', params: [userOnly: true])}"
+       class="btn btn-primary">&laquo; Back to list</a>
+    </div>
     <div class="panel panel-primary">
-        <div class="panel-heading">Create a new image</div>
+        <div class="panel-heading">Media Cut metadata update</div>
 
         <div class="panel-body">
             <div id="error" class="alert alert-danger" style="display: none"></div>
@@ -56,18 +60,17 @@
                     <li>${flash.message}</li>
                 </div>
             </g:if>
-            <g:if test="${image?.hasErrors()}">
+            <g:if test="${mediaCut?.hasErrors()}">
                 <div class="alert alert-warning">
-                    <g:eachError bean="${image}">
+                    <g:eachError bean="${mediaCut}">
                         <li><g:message error="${it}"/></li>
                     </g:eachError>
                 </div>
             </g:if>
             <div class="" style="width: 90%; margin: auto">
-                <form enctype="multipart/form-data"
-                      method="POST"
-                      id="createVideoForm"
-                      action="${createLink(controller: 'image', action: 'create')}">
+                <form method="POST"
+                      id="editMediaCutForm"
+                      action="${createLink(controller: 'mediaCut', action: 'edit', params: [id: mediaCut.id])}">
                     <fieldset>
 
                         <div class="form-group">
@@ -79,7 +82,8 @@
                                    placeholder="Enter the title of your post"
                                    autofocus="true"
                                    required="true"
-                                   value="${image?.title}">
+                                   value="${mediaCut?.title}"
+                                   ${(mediaCut.owner == user) ? "" : "disabled"}>
                         </div>
 
                         <div class="form-group">
@@ -89,16 +93,13 @@
                                       rows="3"
                                       name="description"
                                       placeholder="Describe the point of your post"
-                                      style="resize: none">${image?.description}</textarea>
+                                      style="resize: none"
+                                      ${(mediaCut.owner == user) ? "" : "disabled"}>${mediaCut?.description}</textarea>
                         </div>
 
-                        <div class="form-group">
-                            <label for="inputImage">File input</label>
-                            <input type="file" id="inputImage" name="blob">
-                            <p class="help-block">Allowed formats: png/jpeg.<br>Maximum size: ${(Image.MAXIMUM_SIZE / 1000000) as Integer}MB</p>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Save &raquo;</button>
+                        <g:if test="${mediaCut.owner == user}">
+                            <button type="submit" class="btn btn-primary">Save &raquo;</button>
+                        </g:if>
                     </fieldset>
                 </form>
             </div>

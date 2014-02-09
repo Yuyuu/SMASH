@@ -18,13 +18,3 @@ iframe {
     display: block;
     margin: 0 auto;
 }
-
-/* === Media cuts list === */
-
-.btn-mediacuts-action {
-    visibility: hidden;
-}
-
-.mediacut-thumbnail:hover > .btn-mediacuts-action {
-    visibility: visible;
-}

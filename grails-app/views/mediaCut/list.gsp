@@ -86,7 +86,7 @@
     </div>
 
     <g:each in="${mediacutRepresentationList}" var="mediacut">
-        <div class="well well-sm mediacut-thumbnail">
+        <div class="well well-sm">
             <div class="row">
                 <div class="col-md-6">
                     <span class="label label-primary">${mediacut.class.simpleName}</span>
@@ -98,7 +98,14 @@
                 </g:if>
             </div>
             <g:if test="${mediacut.owner == user}">
-                <div class="pull-right btn-mediacuts-action">
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <a id="btn-edit-mediacut"
+                           class="btn btn-default btn-xs"
+                           href="${createLink(controller: 'mediaCut', action: 'edit', params: [id: mediacut.id])}">
+                            Edit
+                        </a>
+                    </div>
                     <div class="btn-group">
                         <button id="btn-delete-mediacut"
                            data-toggle="modal"
