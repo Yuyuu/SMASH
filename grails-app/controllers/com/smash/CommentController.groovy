@@ -1,7 +1,6 @@
 package com.smash
 
 import com.smash.media.MediaCut
-import com.smash.media.Video
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.annotation.Secured
 import com.smash.domain.Comment
@@ -43,11 +42,15 @@ class CommentController {
             return
         }
 
-        if(commentInstance.media.hasProperty('videoKey')){
-            def mediaCut = MediaCut.findById(commentInstance.media.id)
-            redirect(controller:"Video", action: "show", id:mediaCut.id)
+        def mediaCut = MediaCut.findById(commentInstance.media.id)
+        if(mediaCut){
+            if(commentInstance.media.hasProperty('videoKey'))
+                redirect(controller:"Video", action: "show", id:mediaCut.id)
+            else
+                redirect( controller:'Image', action: "show", id:mediaCut.id)
         }else
-            redirect( controller:'MediaCut', action: "list", userOnly:true)
+            redirect(controller: 'mediaCut', action:"list", userOnly:true)
+
     }
 
     @Secured(['IS_AUTHENTICATED_FULLY'])
@@ -85,12 +88,14 @@ class CommentController {
         }
 
         flash.message = message(code: 'comment.edited.message', args: [message(code: 'comment.label', default: 'Comment'), text])
-        if(commentInstance.media.hasProperty('videoKey')){
-            def mediaCut = MediaCut.findById(commentInstance.media.id)
-            redirect(controller:"Video", action: "show", id:mediaCut.id)
-        }else{
-            redirect( controller:'MediaCut', action: "list", userOnly:true)
-        }
+        def mediaCut = MediaCut.findById(commentInstance.media.id)
+        if(mediaCut){
+            if(commentInstance.media.hasProperty('videoKey'))
+                redirect(controller:"Video", action: "show", id:mediaCut.id)
+            else
+                redirect( controller:'Image', action: "show", id:mediaCut.id)
+        }else
+            redirect(controller: 'mediaCut', action:"list", userOnly:true)
     }
 
     @Secured(['IS_AUTHENTICATED_FULLY'])
@@ -104,22 +109,16 @@ class CommentController {
         MediaCut mediaCut = commentInstance.media
 
         commentInstance = commentService.deleteInstance(commentInstance)
-        if(commentInstance && commentInstance.hasErrors()){
+        if(commentInstance && commentInstance.hasErrors())
             flash.message = message(code: 'comment.not.deleted.message', args: [message(code: 'comment.label', default: 'Comment'), textValue])
-            if(mediaCut.hasProperty('videoKey')){
-                redirect(controller:"video", action: "show", id:mediaCut.id)
-                return
-            }else{
-                redirect( controller:'mediaCut', action: "list", userOnly:true)
-                return
-            }
-
-        }
-        flash.message = message(code: 'comment.deleted.message', args: [message(code: 'comment.label', default: 'Comment'), textValue])
-        if(mediaCut.hasProperty('videoKey')){
-            redirect(controller:"video", action: "show", id:mediaCut.id)
-        }else{
-            redirect( controller:'mediaCut', action: "list", userOnly:true)
-        }
+        else
+            flash.message = message(code: 'comment.deleted.message', args: [message(code: 'comment.label', default: 'Comment'), textValue])
+        if(mediaCut){
+            if(commentInstance.media.hasProperty('videoKey'))
+                redirect(controller:"Video", action: "show", id:mediaCut.id)
+            else
+                redirect( controller:'Image', action: "show", id:mediaCut.id)
+        }else
+            redirect(controller: 'mediaCut', action:"list", userOnly:true)
     }
 }
