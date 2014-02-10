@@ -19,8 +19,20 @@ class MediaCutController {
             userOnly = false
         }
 
+        def mediacutRepresentationList = mediaCutService.list(user, userOnly)
+        def totalCount = mediacutRepresentationList.size()
+
+        int offset = (params.offset ?: 0) as Integer
+        int max = (params.max ?: 4) as Integer
+
+        mediacutRepresentationList = mediacutRepresentationList.subList(
+                offset,
+                (offset + max < totalCount) ? (offset + max) : totalCount
+        )
+
         return [
-                mediacutRepresentationList: mediaCutService.list(user, userOnly),
+                mediacutRepresentationList: mediacutRepresentationList,
+                totalCount: totalCount,
                 user: user,
                 userOnly: userOnly
         ]

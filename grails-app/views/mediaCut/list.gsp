@@ -130,6 +130,10 @@
             </g:if>
         </div>
     </g:each>
+
+    <div class="pull-right">
+        <smash:paginate prev="&laquo;" next="&raquo;" total="${totalCount}" max="4" params="[userOnly: userOnly]"/>
+    </div>
 </div>
 
 <!-- Modal -->
