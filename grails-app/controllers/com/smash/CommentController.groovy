@@ -27,17 +27,8 @@ class CommentController {
 
         if(!params.containsKey('text')){
             flash.message = message(code: 'comment.text.not.inserted')
-            if(params.media){
-                def mediaCut = MediaCut.findById(params.media)
-                if(mediaCut){
-                    if(commentInstance.media.hasProperty('videoKey'))
-                        redirect(controller:"Video", action: "show", id:mediaCut.id)
-                    else
-                        redirect( controller:'Image', action: "show", id:mediaCut.id)
-                }else
-                    render(view: "/mediaCut/list", model: [userOnly: true])
-            }else
-                render(view: "/mediaCut/list", model: [userOnly: true])
+            render(view: "/mediaCut/list", model: [userOnly: true])
+            return
         }
         if(!params.containsKey('media')){
             flash.message = message(code: 'comment.media.not.found')

@@ -54,41 +54,24 @@ class CommentControllerSpec extends Specification {
 
     void "test save - no text added to comment"(){
         given:
-            params.text = null
+            params.media = 1
         when:
             controller.save()
         then:
-           response.redirectedUrl == "/comment/create"
-           flash.message != null
+           view == "/mediaCut/list"
+           flash.message == "comment.text.not.inserted"
     }
 
     void "test save - no media added to comment"(){
         given:
-            params.media = null
+            params.text = "test"
         when:
             controller.save()
         then:
-            response.redirectedUrl == "/comment/create"
-            flash.message != null
+            view == "/mediaCut/list"
+            flash.message == "comment.media.not.found"
     }
 
- /*   void "test save - succes"(){
-        given:
-            params.text = "new comment"
-            params.media = media.id
-            Comment commentInstance = Mock(Comment)
-            commentInstance.media >> media
-        and:
-            commentService.createAndSave(params) >> commentInstance
-        and:
-            MediaCut.metaClass.static.findById = { Long id -> media }
-        when:
-            controller.save(commentInstance)
-        then:
-            commentInstance != null
-            response.redirectedUrl == "/mediaCut/list"
-    }
-*/
     void "test save - comment to video"(){
         given:
             Video video = Mock(Video)
@@ -137,8 +120,7 @@ class CommentControllerSpec extends Specification {
         and:
             commentInstance = commentService.createAndSave(params)
         then:
-            view == "/comment/create"
-            model.commentInstance == commentInstance
+            response.redirectedUrl == "/mediaCut/list"
     }
 
     void "test show - id not found"(){
@@ -297,7 +279,7 @@ class CommentControllerSpec extends Specification {
         when:
             controller.edit(commentInstance)
         then:
-            flash.message == "comment.edited.message"
+            flash.message == null
             response.redirectedUrl == "/video/show"
     }
 
@@ -314,7 +296,7 @@ class CommentControllerSpec extends Specification {
         when:
             controller.edit(commentInstance)
         then:
-            flash.message == "comment.edited.message"
+            flash.message == null
             response.redirectedUrl == "/image/show"
     }
 
