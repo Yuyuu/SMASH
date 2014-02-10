@@ -1,4 +1,4 @@
-<%@ page import="com.smash.media.Video" %>
+<%@ page import="com.smash.media.Image" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,7 +47,7 @@
 
 <div class="container" style="width: 50%">
     <div class="panel panel-primary">
-        <div class="panel-heading">Create a new video snippet</div>
+        <div class="panel-heading">Create a new image</div>
 
         <div class="panel-body">
             <div id="error" class="alert alert-danger" style="display: none"></div>
@@ -56,17 +56,19 @@
                     <li>${flash.message}</li>
                 </div>
             </g:if>
-            <g:if test="${video?.hasErrors()}">
+            <g:if test="${image?.hasErrors()}">
                 <div class="alert alert-warning">
-                    <g:eachError bean="${video}">
+                    <g:eachError bean="${image}">
                         <li><g:message error="${it}"/></li>
                     </g:eachError>
                 </div>
             </g:if>
             <div class="" style="width: 90%; margin: auto">
-                <form method="POST" id="createVideoForm" action="${createLink(controller: 'video', action: 'create')}">
+                <form enctype="multipart/form-data"
+                      method="POST"
+                      id="createVideoForm"
+                      action="${createLink(controller: 'image', action: 'create')}">
                     <fieldset>
-                        <input type="text" name="videoKey" id="inputId" hidden="hidden">
 
                         <div class="form-group">
                             <label for="inputTitle">Title</label>
@@ -77,7 +79,7 @@
                                    placeholder="Enter the title of your post"
                                    autofocus="true"
                                    required="true"
-                                   value="${video?.title}">
+                                   value="${image?.title}">
                         </div>
 
                         <div class="form-group">
@@ -87,42 +89,13 @@
                                       rows="3"
                                       name="description"
                                       placeholder="Describe the point of your post"
-                                      style="resize: none">${video?.description}</textarea>
+                                      style="resize: none">${image?.description}</textarea>
                         </div>
 
                         <div class="form-group">
-                            <label for="inputUrl">URL</label>
-                            <input type="url" class="form-control" id="inputUrl"
-                                   placeholder="Enter the youtube video URL"
-                                   required="true"
-                                   value="${video?.videoKey ? "http://www.youtube.com/watch?v=" + video.videoKey : ""}">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label">From</label>
-
-                            <div>
-                                <g:select class="input-sm" name="start_hr" from="${0..23}"/> <strong>:</strong>
-                                <g:select class="input-sm" name="start_min" from="${0..59}"/> <strong>:</strong>
-                                <g:select class="input-sm" name="start_sec" from="${0..59}"/>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label">To</label>
-
-                            <div>
-                                <g:select class="input-sm" name="end_hr" from="${0..23}"/> <strong>:</strong>
-                                <g:select class="input-sm" name="end_min" from="${0..59}"/> <strong>:</strong>
-                                <g:select class="input-sm" name="end_sec" from="${0..59}"/>
-                            </div>
-                            <span class="help-block">Maximum video duration: ${Video.MAXIMUM_DURATION}s</span>
-                        </div>
-                        
-                        <div class="form-group">
-                        	<label for="inputTags">Tags:</label>
-                            <input type="text" class="form-control" id="inputTags" name="tags"
-                                   placeholder="Tags separated by spaces"/>
+                            <label for="inputImage">File input</label>
+                            <input type="file" id="inputImage" name="blob">
+                            <p class="help-block">Allowed formats: png/jpeg.<br>Maximum size: ${(Image.MAXIMUM_SIZE / 1000000) as Integer}MB</p>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Save &raquo;</button>
@@ -132,33 +105,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    var errorField = $('#error');
-
-    $(document).ready(function () {
-        errorField.html("");
-        errorField.hide();
-    });
-
-    $("#createVideoForm").submit(function () {
-        var urlRegex = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
-        var url = $('#inputUrl').val();
-
-        // check url
-        if (url.match(urlRegex)) {
-            var id = RegExp.$1
-            $("#inputId").val(id);
-        } else {
-            errorField.html("The URL you submitted is not a valid youtube URL");
-            errorField.show();
-            $("#inputUrl").focus();
-            return false;
-        }
-
-        return true;
-    });
-</script>
 
 </body>
 </html>

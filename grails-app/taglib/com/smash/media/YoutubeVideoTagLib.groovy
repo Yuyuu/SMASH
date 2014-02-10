@@ -6,7 +6,6 @@ class YoutubeVideoTagLib {
     static namespace = "youtube"
     static defaultEncodeAs = 'html'
 
-    // TODO Spec
     def video = { attrs ->
         def videoKey = attrs['videoKey']
         def start = attrs['start']
@@ -24,7 +23,7 @@ class YoutubeVideoTagLib {
                     src: "//www.youtube-nocookie.com/embed/${videoKey}${urlEnding}",
                     frameborder: "0",
                     allowfullscreen: null
-            )
+            ) {}
         }
 
         def xml = new StreamingMarkupBuilder().bind(vd)

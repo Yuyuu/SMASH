@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="layout" content="smash"/>
-    <title>${video.title}</title>
+    <title>${image.title}</title>
 </head>
 
 <body>
@@ -51,14 +51,16 @@
 </div>
 
 <div class="container" style="width: 60%">
-    <a href="${createLink(controller: 'mediaCut', action: 'list', params: [userOnly: true])}" class="btn btn-primary">&laquo; Back to list</a>
-    <h1>${video.title}</h1>
+    <a href="${createLink(controller: 'mediaCut', action: 'list', params: [userOnly: true])}"
+       class="btn btn-primary">&laquo; Back to list</a>
+
+    <h1>${image.title}</h1>
 
     <div class="row">
         <div class="col-sm-10">
-            <blockquote>${video.description}</blockquote>
+            <blockquote>${image.description}</blockquote>
         </div>
-        <g:if test="${video.owner == user}">
+        <g:if test="${image.owner == user}">
             <div class="col-md-2">
                 <div class="pull-right">
                     <div class="btn-group">
@@ -66,8 +68,8 @@
                                 data-toggle="modal"
                                 data-target="#deleteMediaCutModal"
                                 class="btn btn-warning"
-                                onclick="$('#delete-modal-id').val('${video.id}');
-                                $('#myModalLabel').text('Delete Media Cut: ${video.title}')">
+                                onclick="$('#delete-modal-id').val('${image.id}');
+                                $('#myModalLabel').text('Delete Media Cut: ${image.title}')">
                             Delete this post
                         </button>
                     </div>
@@ -76,22 +78,29 @@
         </g:if>
     </div>
 
-    <youtube:video videoKey="${video.videoKey}" start="${video.startTime}" end="${video.endTime}" />
+    <div class="text-center">
+        <img src="${createLink(controller: 'image', action: 'showRaw', params: [id: image.id])}" alt="${image.fileName}"
+             class="img-thumbnail"/>
+    </div>
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="deleteMediaCutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteMediaCutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog">
         <g:form controller="mediaCut" action="delete" style="margin: 0">
             <div class="modal-content">
                 <input type="hidden" name="id" id="delete-modal-id"/>
+
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title" id="myModalLabel">Delete Media Cut</h4>
                 </div>
+
                 <div class="modal-body">
                     This operation cannot be undone.<br>Are you sure you want to delete this Media Cut ?
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-danger">Delete</button>

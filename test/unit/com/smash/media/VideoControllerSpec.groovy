@@ -1,6 +1,10 @@
+
 package com.smash.media
 
+import com.smash.domain.Tag
+import com.smash.tag.TagService;
 import com.smash.user.User
+
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.test.mixin.TestFor
 import spock.lang.Specification
@@ -10,13 +14,16 @@ class VideoControllerSpec extends Specification {
 
     SpringSecurityService springSecurityService
     VideoService videoService
+	TagService tagService;
 
     def setup() {
         springSecurityService = Mock(SpringSecurityService)
         videoService = Mock(VideoService)
+		tagService = Mock(TagService)
 
         controller.springSecurityService = springSecurityService
         controller.videoService = videoService
+		controller.tagService = tagService
     }
 
     def "show - Id is null"() {
@@ -28,7 +35,7 @@ class VideoControllerSpec extends Specification {
     }
 
     def "show - Video not found"() {
-        given: "a stubbed videoService"
+        given: "a stubbed imageService"
         videoService.retrieveVideoById((Long) _) >> null
 
         when: "calling action show"
@@ -43,14 +50,14 @@ class VideoControllerSpec extends Specification {
         given: "a mocked video"
         Video video = Mock(Video)
 
-        and: "a stubbed videoService"
+        and: "a stubbed imageService"
         videoService.retrieveVideoById((Long) _) >> video
 
         when: "calling action show"
         def model = controller.show(1)
 
         then: "the following map should be returned"
-        model.size() == 1
+        model.size() == 2
         model.video == video
     }
 
@@ -149,7 +156,7 @@ class VideoControllerSpec extends Specification {
         User user = Mock(User)
         springSecurityService.currentUser >> user
 
-        and: "a stubbed videoService"
+        and: "a stubbed imageService"
         videoService.addVideo(user, (Video) _) >> video
 
         when: "calling create action"
@@ -183,7 +190,7 @@ class VideoControllerSpec extends Specification {
         User user = Mock(User)
         springSecurityService.currentUser >> user
 
-        and: "a stubbed videoService"
+        and: "a stubbed imageService"
         videoService.addVideo(user, (Video) _) >> video
 
         when: "calling create action"
@@ -192,4 +199,47 @@ class VideoControllerSpec extends Specification {
         then: "the user should be redirected to the following url with the proper model"
         response.redirectedUrl == "/video/show"
     }
+	
+	def "test create success with tags"() {
+		given: "request method type is POST"
+        	request.method = 'POST'
+		
+		and: "some mocked params with tags"
+			params.title = "title"
+			params.description = "description"
+			params.videoKey = "key"
+			params.start_hr = 0
+			params.start_min = 0
+			params.start_sec = 0
+			params.end_hr = 0
+			params.end_min = 0
+			params.end_sec = 25
+			params.tags = currentTags
+
+		and: "a mocked video"
+			Video video = Mock(Video)
+			video.id >> 1
+
+		and: "a mocked user"
+			User user = Mock(User)
+			springSecurityService.currentUser >> user
+
+		and: "a stubbed videoService"
+			videoService.addVideo(user, (Video) _) >> video
+
+		when: "calling create action"
+			controller.create()
+
+		then: "the user should be redirected to the following url with the proper model"
+			response.redirectedUrl == "/video/show"
+		
+		and: "TagService shoulb be called"
+			expectedTagNumber * tagService.createTag((Tag)_);
+			
+		where:
+			currentTags		| expectedTagNumber
+			""				| 0
+			"tag1"			| 1
+			"tag1 tag2"		| 2
+	}
 }
