@@ -7,23 +7,22 @@
 </head>
 
 <body>
-<div class="container" style="width: 50%;">
+<div class="container" style="width: 60%;margin-top: 2%; margin-bottom: 2%">
     <g:if test='${flash.message}'>
         <div class='alert alert-danger alert-dismissable' style="text-align: left">
             ${flash.message}
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         </div>
     </g:if>
-    <div class="panel panel-primary">
-        <div class="panel-heading">Add comment to media</div>
-        <g:form url="[resource: commentInstance, action: 'save']">
-            <div class="fieldcontain ${hasErrors(bean: commentInstance, field: 'text', 'error')} required">
-               <g:textField class="panel-body" style="width:90%" name="text" id="text" value="${commentInstance?.text}" contenteditable="true"></g:textField>
-               <g:hiddenField name="media" id="media" value="${params.media}"></g:hiddenField>
-               <g:actionSubmit class="btn-primary" type="submit" action="save" value="Add"/>
-            </div>
-        </g:form>
+    <g:form url="[resource: commentInstance, action: 'save']">
+    <div class="fieldcontain ${hasErrors(bean: commentInstance, field: 'text', 'error')} required">
+       <g:textField class="panel-body" style="width:80%" name="text" id="text" value="${commentInstance?.text}" contenteditable="true"></g:textField>
+       <g:hiddenField name="media" id="media" value="${params.media}"></g:hiddenField>
+       <div class="btn-group pull-right col-md-2">
+           <g:actionSubmit class="btn btn-primary" type="submit" action="save" value="Add comment"/>
+        </div>
     </div>
+    </g:form>
 </div>
 
 </body>

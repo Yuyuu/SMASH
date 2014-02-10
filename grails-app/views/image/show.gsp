@@ -51,17 +51,7 @@
 </div>
 
 <div class="container" style="width: 60%">
-    <g:if test='${flash.message}'>
-        <div class='alert alert-danger alert-dismissable' style="text-align: left">
-            ${flash.message}
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        </div>
-    </g:if>
     <a href="${createLink(controller: 'mediaCut', action: 'list', params: [userOnly: true])}" class="btn btn-primary">&laquo; Back to list</a>
-    <a href="${createLink(controller: 'comment', action: 'create', params: [media: image.id])}" class="btn btn-primary">&raquo; Add comment</a>
-    <g:if test="${image.comments}">
-        <a href="${createLink(controller: 'comment', action: 'index', params: [media: image.id])}" class="btn btn-primary">Show comments</a>
-    </g:if>
     <h1>${image.title}</h1>
 
     <div class="row">
@@ -90,6 +80,14 @@
         <img src="${createLink(controller: 'image', action: 'showRaw', params: [id: image.id])}" alt="${image.fileName}"
              class="img-thumbnail"/>
     </div>
+</div>
+<div>
+    <g:if test="${image.comments}">
+        <g:include controller="comment" action="index" params="[media: image.id]" ></g:include>
+    </g:if>
+</div>
+<div>
+    <g:include controller="comment" action="create" params="[media: image.id]" ></g:include>
 </div>
 
 <!-- Modal -->

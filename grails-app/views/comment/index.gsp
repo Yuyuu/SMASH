@@ -7,14 +7,17 @@
 </head>
 
 <body>
-<div class="container" style="width: 50%;">
-    <div class="panel panel-primary">
-        <div class="panel-heading">Show comments</div>
-        <div class="fieldcontain ${hasErrors(bean: media, field: 'error')} required">
-            <g:each var="comment" in="${MediaCut.findById(media).comments}">
-                <g:include action="show" controller="comment" params="[commentId:comment.id]"></g:include>
-            </g:each>
+<div class="container" style="width: 60%;">
+    <g:if test='${flash.message}'>
+        <div class='alert alert-danger alert-dismissable' style="text-align: left">
+            ${flash.message}
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         </div>
+    </g:if>
+    <div class="fieldcontain ${hasErrors(bean: media, field: 'error')} required">
+        <g:each var="comment" in="${MediaCut.findById(media).comments}">
+            <g:include action="show" controller="comment" params="[commentId:comment.id]"></g:include>
+        </g:each>
     </div>
 </div>
 
