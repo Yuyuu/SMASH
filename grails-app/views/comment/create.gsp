@@ -8,6 +8,12 @@
 
 <body>
 <div class="container" style="width: 50%;">
+    <g:if test='${flash.message}'>
+        <div class='alert alert-danger alert-dismissable' style="text-align: left">
+            ${flash.message}
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        </div>
+    </g:if>
     <div class="panel panel-primary">
         <div class="panel-heading">Add comment to media</div>
         <g:form url="[resource: commentInstance, action: 'save']">

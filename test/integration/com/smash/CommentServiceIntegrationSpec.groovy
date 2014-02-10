@@ -25,30 +25,54 @@ class CommentServiceIntegrationSpec extends Specification {
         commentCreated.save()
     }
 
-    def "create comment test"() {
-           given: "params from view"
-                Map params = (Map) commentController.create()
-                params.text = "new comment"
-                params.mediaId = mediaCut.id
+    def "test - create comment test"() {
+       given: "params from view"
+            Map params = (Map) commentController.create()
+            params.text = "new comment"
+            params.mediaId = mediaCut.id
 
-            when: "create and save comment"
-                Comment newComment = commentService.createAndSave(params)
+       when: "create and save comment"
+            Comment newComment = commentService.createAndSave(params)
+       then: "comment is added"
+            newComment
+            newComment != null
+            newComment.text == "new comment"
+    }
+    def "test - create and save comment"(){
+        given: "params from create view"
+            Map params = (Map) commentController.create()
+        and:
+            params.text = "new comment"
+            params.mediaId = mediaCut.id
+        and:"create and save comment"
+            Comment newComment = commentService.createAndSave(params)
+        when:
+            commentController.save(newComment)
+        then: "comment is added"
+           commentController.params.id == mediaCut.id
 
-            then: "comment is added"
-                   newComment != null
-                   newComment.text != null
-                   newComment.text == "new comment"
-            /*       Comment commentFound = Comment.findByText("new comment")
-                   commentFound != null*/
     }
 
-    def "delete existing comment test"(){
-            given:
-                Comment commentToDelete = commentCreated
-            when:
-                commentService.deleteInstance(commentToDelete)
-            then:
-                Comment.get(commentToDelete.id) == null
+    def "test - delete existing comment "(){
+        given:
+            Comment commentToDelete = commentCreated
+        when:
+            commentService.deleteInstance(commentToDelete)
+        then:
+            Comment.get(commentToDelete.id) == null
+    }
+
+    def "test - edit comment"(){
+        given:
+            Map params = (Map) commentController.create()
+        and:
+            params.text = "comment edited"
+        and:
+            Comment commentInstance = commentCreated
+        when:
+            commentService.updateAndSave(commentInstance,params)
+        then:
+            commentInstance.text == params.text
     }
 
 }

@@ -20,6 +20,12 @@ class CommentService {
         newComment.save(flush:false)
         newComment
     }
+    def Comment updateAndSave(Comment commentInstance, Map<Object, Object> properties){
+
+            commentInstance.text = properties.text
+            commentInstance.save(flush: true)
+            commentInstance
+    }
 
     def Comment deleteInstance(Comment commentInstance){
 

@@ -23,11 +23,11 @@ class CommentSpec extends Specification {
     @Unroll
     void "test constraints"() {
         setup:
-        longVar = 'a' * 300
-        authorComment = Mock(User)
-        mediaComment = Mock(MediaCut)
-        newComment = new Comment(text: testValue, author: authorComment, media: mediaComment)
-        commentTooLong = new Comment(text: longVar, author: authorComment, media: mediaComment)
+            longVar = 'a' * 300
+            authorComment = Mock(User)
+            mediaComment = Mock(MediaCut)
+            newComment = new Comment(text: testValue, author: authorComment, media: mediaComment)
+            commentTooLong = new Comment(text: longVar, author: authorComment, media: mediaComment)
 
         expect:
             newComment.validate() == result
@@ -37,5 +37,16 @@ class CommentSpec extends Specification {
             testValue   | result
             'test'      | true
             ''          | false
+    }
+
+    void "test methods"(){
+        setup:
+            Comment commentInstance = new Comment(text: "new comment", author: Mock(User), media: Mock(MediaCut))
+            String result = commentInstance.getComment()
+            String authorName = commentInstance.getAuthorUsername()
+
+        expect:
+            result == commentInstance.text
+            authorName == commentInstance.author.username
     }
 }
