@@ -27,18 +27,27 @@ class CommentController {
 
         if(!params.containsKey('text')){
             flash.message = message(code: 'comment.text.not.inserted')
-            redirect(action:'create')
-            return
+            if(params.media){
+                def mediaCut = MediaCut.findById(params.media)
+                if(mediaCut){
+                    if(commentInstance.media.hasProperty('videoKey'))
+                        redirect(controller:"Video", action: "show", id:mediaCut.id)
+                    else
+                        redirect( controller:'Image', action: "show", id:mediaCut.id)
+                }else
+                    render(view: "/mediaCut/list", model: [userOnly: true])
+            }else
+                render(view: "/mediaCut/list", model: [userOnly: true])
         }
         if(!params.containsKey('media')){
             flash.message = message(code: 'comment.media.not.found')
-            redirect(action:'create')
+            render(view: "/mediaCut/list", model: [userOnly: true])
             return
         }
 
         commentInstance = commentService.createAndSave(params)
         if ( !commentInstance  || commentInstance.hasErrors()) {
-            render(view: "create", model: [commentInstance: commentInstance])
+            redirect(controller: 'mediaCut', action:"list", userOnly:true)
             return
         }
 
@@ -55,7 +64,6 @@ class CommentController {
 
     @Secured(['IS_AUTHENTICATED_FULLY'])
     def show(){
-        flash.clear()
         if(!params.containsKey('commentId')){
             redirect( controller:'mediaCut', action: "list", userOnly:true)
             return
@@ -87,7 +95,6 @@ class CommentController {
             return
         }
 
-        flash.message = message(code: 'comment.edited.message', args: [message(code: 'comment.label', default: 'Comment'), text])
         def mediaCut = MediaCut.findById(commentInstance.media.id)
         if(mediaCut){
             if(commentInstance.media.hasProperty('videoKey'))
@@ -109,10 +116,18 @@ class CommentController {
         MediaCut mediaCut = commentInstance.media
 
         commentInstance = commentService.deleteInstance(commentInstance)
-        if(commentInstance && commentInstance.hasErrors())
+        if(commentInstance && commentInstance.hasErrors()){
             flash.message = message(code: 'comment.not.deleted.message', args: [message(code: 'comment.label', default: 'Comment'), textValue])
-        else
-            flash.message = message(code: 'comment.deleted.message', args: [message(code: 'comment.label', default: 'Comment'), textValue])
+            if(mediaCut){
+                if(commentInstance.media.hasProperty('videoKey'))
+                    redirect(controller:"Video", action: "show", id:mediaCut.id)
+                else
+                    redirect( controller:'Image', action: "show", id:mediaCut.id)
+            }else
+                redirect(controller: 'mediaCut', action:"list", userOnly:true)
+            return
+        }
+
         if(mediaCut){
             if(commentInstance.media.hasProperty('videoKey'))
                 redirect(controller:"Video", action: "show", id:mediaCut.id)
