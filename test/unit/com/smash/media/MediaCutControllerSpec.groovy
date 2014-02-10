@@ -3,7 +3,6 @@ package com.smash.media
 import com.smash.user.User
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.test.mixin.TestFor
-import spock.lang.IgnoreRest
 import spock.lang.Specification
 
 @TestFor(MediaCutController)
@@ -22,7 +21,7 @@ class MediaCutControllerSpec extends Specification {
 
     def "list - Default logged in user"() {
         given: "a mocked list"
-        List list = Mock(List)
+        List list = [Mock(Video), Mock(Video)]
 
         and: "a stubbed current user"
         springSecurityService.currentUser >> Mock(User)
@@ -31,17 +30,21 @@ class MediaCutControllerSpec extends Specification {
         and: "list method of mediacutService returns the mocked list"
         mediaCutService.list((User) _, (Boolean) _) >> list
 
+        and: "some mocked params"
+        params.max = 2
+
         when: "calling list action with userOnly = true"
         def res = controller.list(true)
 
         then: "the following map should be returned"
         res.mediacutRepresentationList == list
+        res.totalCount == 2
         res.userOnly
     }
 
     def "list - Default anonymous"() {
         given: "a mocked list"
-        List list = Mock(List)
+        List list = [Mock(Video), Mock(Video)]
 
         and: "a stubbed current user"
         springSecurityService.currentUser >> Mock(User)
@@ -50,11 +53,15 @@ class MediaCutControllerSpec extends Specification {
         and: "list method of mediacutService returns the mocked list"
         mediaCutService.list((User) _, (Boolean) _) >> list
 
+        and: "some mocked params"
+        params.max = 2
+
         when: "calling list action with userOnly = true"
         def res = controller.list(true)
 
         then: "the following map should be returned"
         res.mediacutRepresentationList == list
+        res.totalCount == 2
         !res.userOnly
     }
 
