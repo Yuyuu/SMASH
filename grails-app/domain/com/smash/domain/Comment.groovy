@@ -14,7 +14,7 @@ class Comment {
         media nullable: false
     }
 
-    String getComment(){
+    String toString(){
         text
     }
 

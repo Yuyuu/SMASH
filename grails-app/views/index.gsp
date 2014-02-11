@@ -59,14 +59,8 @@
     <div class="container" style="width: 70%; margin: 0 auto;">
         <div class="row" style="margin-bottom: 5em; ">
         <div class="col-lg-6" style="text-align: center;">
-
-          <h3>Available Controllers</h3>
-
-          <p>
-              <g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName }}">
-                  <li class="controller"><g:link controller="${c.logicalPropertyName}">${c.fullName}</g:link></li>
-              </g:each>
-          </div>
+            <g:img dir="images" file="smash_logo.jpg"/>
+        </div>
 
 
 

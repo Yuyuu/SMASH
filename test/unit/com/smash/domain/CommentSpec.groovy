@@ -42,7 +42,7 @@ class CommentSpec extends Specification {
     void "test methods"(){
         setup:
             Comment commentInstance = new Comment(text: "new comment", author: Mock(User), media: Mock(MediaCut))
-            String result = commentInstance.getComment()
+            String result = commentInstance.toString()
             String authorName = commentInstance.getAuthorUsername()
 
         expect:

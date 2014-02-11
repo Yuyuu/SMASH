@@ -16,7 +16,7 @@
     </g:if>
     <g:form url="[resource: commentInstance, action: 'save']">
     <div class="fieldcontain ${hasErrors(bean: commentInstance, field: 'text', 'error')} required">
-       <g:textField class="panel-body" style="width:80%" name="text" id="text" value="${commentInstance?.text}" contenteditable="true"></g:textField>
+       <g:textField class="panel-body" required="required" pattern=".{1,}" style="width:80%" name="text" id="text" value="${commentInstance?.text}" contenteditable="true"></g:textField>
        <g:hiddenField name="media" id="media" value="${params.media}"></g:hiddenField>
        <div class="btn-group pull-right col-md-2">
            <g:actionSubmit class="btn btn-primary" type="submit" action="save" value="Add comment"/>
