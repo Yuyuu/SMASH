@@ -7,7 +7,7 @@
 </head>
 
 <body>
-<div class="container" style="width: 60%;margin-top: 2%; margin-bottom: 2%">
+<div class="container" style="width: 50%;margin-top: 2%; margin-bottom: 2%">
     <g:if test='${flash.message}'>
         <div class='alert alert-danger alert-dismissable' style="text-align: left">
             ${flash.message}
@@ -18,7 +18,7 @@
     <div class="fieldcontain ${hasErrors(bean: commentInstance, field: 'text', 'error')} required">
        <g:textField class="panel-body" required="required" pattern=".{1,}" style="width:80%" name="text" id="text" value="${commentInstance?.text}" contenteditable="true"></g:textField>
        <g:hiddenField name="media" id="media" value="${params.media}"></g:hiddenField>
-       <div class="btn-group pull-right col-md-2">
+       <div class="btn-group pull-right">
            <g:actionSubmit class="btn btn-primary" type="submit" action="save" value="Add comment"/>
         </div>
     </div>

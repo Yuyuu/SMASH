@@ -7,7 +7,7 @@
 </head>
 
 <body>
-<div class="container" style="width: 60%;">
+<div class="container" style="width: 50%;">
     <g:if test='${flash.message}'>
         <div class='alert alert-danger alert-dismissable' style="text-align: left">
             ${flash.message}

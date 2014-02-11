@@ -13,9 +13,9 @@
         <g:form url="[resource: commentInstance]">
             <g:if test="${currentUser.equals(commentInstance.author)}">
                 <g:textField class="panel-body" required="required" pattern=".{1,}" style="width:80%" name="text" id="text" value="${commentInstance?.text}"></g:textField>
-                <div class="btn-group pull-right">
-                    <g:actionSubmit class="btn btn-danger" type="submit" action="delete" value="Delete"/>
+                <div class="btn-group pull-right" style="align-self: center">
                     <g:actionSubmit class="btn btn-primary" type="submit" action="edit" value="Edit"/>
+                    <g:actionSubmit class="btn btn-danger" type="submit" action="delete" value="Delete"/>
                 </div>
             </g:if><g:else>
                 <g:textField class="panel-body"  style="width:80%" name="text" id="text" value="${commentInstance?.text}" disabled="disabled" ></g:textField>
