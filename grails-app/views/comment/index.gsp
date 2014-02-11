@@ -15,8 +15,7 @@
         </div>
     </g:if>
     <div class="fieldcontain ${hasErrors(bean: media, field: 'error')} required">
-        <g:set var="commentList" value="${MediaCut.findById(media).comments}"></g:set>
-        <g:each var="comment" in="${commentList.sort{it.id} }">
+        <g:each var="comment" in="${MediaCut.findById(media).comments}">
             <g:include action="show" controller="comment" params="[commentId:comment.id]"></g:include>
         </g:each>
     </div>
