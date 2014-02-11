@@ -50,7 +50,7 @@ class EvaluationServiceIntegrationSpec extends Specification {
             mediacut.getNbPositiveVote() == ++nbPositiveVote
     }
 
-    void "test number of negative votes is well decremented for a Video"() {
+    void "test number of negative votes is well incremented for a Video"() {
         given : "a Video and a negative Evaluation"
             MediaCut mediacut = new Video(title: "Une video", owner: User.findByUsername("owner"), videoKey: "key",
                     startTime: 0, endTime: 10, dateCreated: new Date())
@@ -61,10 +61,10 @@ class EvaluationServiceIntegrationSpec extends Specification {
             evaluationService.voteForMediaCut(mediacut, evaluation)
 
         then : "expect that nbPositiveVote is incremented"
-            mediacut.getNbNegativeVote() == --nbNegativeVote
+            mediacut.getNbNegativeVote() == ++nbNegativeVote
     }
 
-    void "test number of negative votes is well decremented for an Image"() {
+    void "test number of negative votes is well incremented for an Image"() {
         given : "an Image and a negative Evaluation"
             MediaCut mediacut = new Image(title: "Une image", owner: User.findByUsername("owner"),
                     blob: new byte[10], mimeType: "image/png", fileName: "my image", dateCreated: new Date())
@@ -75,7 +75,7 @@ class EvaluationServiceIntegrationSpec extends Specification {
             evaluationService.voteForMediaCut(mediacut, evaluation)
 
         then : "expect that nbPositiveVote is incremented"
-            mediacut.getNbNegativeVote() == --nbNegativeVote
+            mediacut.getNbNegativeVote() == ++nbNegativeVote
     }
 
     void "test evaluation is added correctly in the Video"() {

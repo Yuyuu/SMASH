@@ -11,7 +11,7 @@ class EvaluationService {
         if(evaluation.getVote())
             mediacut.setNbPositiveVote(++mediacut.getNbPositiveVote())
         else
-            mediacut.setNbNegativeVote(--mediacut.getNbNegativeVote())
+            mediacut.setNbNegativeVote(++mediacut.getNbNegativeVote())
         mediacut.addToEvaluations(evaluation)
         mediacut.save(flush: true)
     }
