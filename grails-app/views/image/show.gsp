@@ -1,4 +1,4 @@
-<%@ page import="com.smash.media.Video" %>
+<%@ page import="com.smash.media.Image" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,6 +74,45 @@
                 </div>
             </div>
         </g:if>
+    </div>
+
+    <div>
+        <div class="parent">
+            <sec:ifLoggedIn>
+                <div class="child">
+                    <g:form controller="evaluation" action="vote">
+                        <g:ifNotAlreadyVoted evaluations="${image.evaluations}" loggedUserId="${sec.loggedInUserInfo(field: 'id')}" >
+                            <span class ="smash">
+                                <g:actionSubmit class="vote" value="true" action="vote" />
+                                <g:hiddenField name="vote" value="true" />
+                                <g:hiddenField name="type" value="image" />
+                                <g:hiddenField name="id" value="${image.id}" />
+                            </span>
+                        </g:ifNotAlreadyVoted>
+                        <g:ifAlreadyVoted evaluations="${image.evaluations}" loggedUserId="${sec.loggedInUserInfo(field: 'id')}" >
+                            <g:img dir="images" file="smash.png" />
+                        </g:ifAlreadyVoted>
+                        <span class="nbvote"><p>${image.nbPositiveVote}</p></span>
+                    </g:form>
+                </div>
+                <div class="child2">
+                    <g:form controller="evaluation" action="vote">
+                        <g:ifNotAlreadyVoted evaluations="${image.evaluations}" loggedUserId="${sec.loggedInUserInfo(field: 'id')}" >
+                            <span class ="unsmash">
+                                <g:actionSubmit class="vote" value="false" action="vote" />
+                                <g:hiddenField name="vote" value="false" />
+                                <g:hiddenField name="type" value="image" />
+                                <g:hiddenField name="id" value="${image.id}" />
+                            </span>
+                        </g:ifNotAlreadyVoted>
+                        <g:ifAlreadyVoted evaluations="${image.evaluations}" loggedUserId="${sec.loggedInUserInfo(field: 'id')}" >
+                            <g:img dir="images" file="unsmash.png" />
+                        </g:ifAlreadyVoted>
+                        <span class="nbvote2"><p>${image.nbNegativeVote}</p></span>
+                    </g:form>
+                </div>
+            </sec:ifLoggedIn>
+        </div>
     </div>
 
     <div class="text-center">

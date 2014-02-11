@@ -4,12 +4,12 @@ import com.smash.media.MediaCut
 import com.smash.user.User
 
 class Evaluation {
-	boolean type;	//true = positive evaluation, false = negative evaluation
-	User author;	
-	static belongsTo = [media: MediaCut]
+	boolean vote	//true = positive evaluation, false = negative evaluation
+	static belongsTo = [media: MediaCut, owner: User]
 
     static constraints = {
-		type nullable: false
-		author nullable: false
+		owner nullable: false
+        media nullable : false
+        vote nullable: false
     }
 }
