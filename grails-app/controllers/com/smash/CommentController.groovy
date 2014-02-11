@@ -25,23 +25,23 @@ class CommentController {
     @Secured(['IS_AUTHENTICATED_FULLY'])
     def save(Comment commentInstance){
 
-        if(!params.containsKey('text') || !params.text ){
-            if(params.containsKey('media') && MediaCut.findById(params.media)){
-                flash.message = message(code: 'comment.text.not.inserted')
-                if(MediaCut.findById(params.media).hasProperty('videoKey'))
-                    redirect(controller:"Video", action: "show", id:params.media)
-                else
-                    redirect( controller:'Image', action: "show", id:params.media)
-                return
-            }
-
+        if(!params.containsKey('text')){
             flash.message = message(code: 'comment.text.not.inserted')
-            redirect(controller: 'mediaCut', action:"list", userOnly:true)
-            return
+            if(params.media){
+                def mediaCut = MediaCut.findById(params.media)
+                if(mediaCut){
+                    if(commentInstance.media.hasProperty('videoKey'))
+                        redirect(controller:"Video", action: "show", id:mediaCut.id)
+                    else
+                        redirect( controller:'Image', action: "show", id:mediaCut.id)
+                }else
+                    render(view: "/mediaCut/list", model: [userOnly: true])
+            }else
+                render(view: "/mediaCut/list", model: [userOnly: true])
         }
         if(!params.containsKey('media')){
             flash.message = message(code: 'comment.media.not.found')
-            redirect(controller: 'mediaCut', action:"list", userOnly:true)
+            render(view: "/mediaCut/list", model: [userOnly: true])
             return
         }
 
@@ -96,11 +96,13 @@ class CommentController {
         }
 
         def mediaCut = MediaCut.findById(commentInstance.media.id)
-        if(commentInstance.media.hasProperty('videoKey'))
-            redirect(controller:"Video", action: "show", id:mediaCut.id)
-        else
-            redirect( controller:'Image', action: "show", id:mediaCut.id)
-
+        if(mediaCut){
+            if(commentInstance.media.hasProperty('videoKey'))
+                redirect(controller:"Video", action: "show", id:mediaCut.id)
+            else
+                redirect( controller:'Image', action: "show", id:mediaCut.id)
+        }else
+            redirect(controller: 'mediaCut', action:"list", userOnly:true)
     }
 
     @Secured(['IS_AUTHENTICATED_FULLY'])
@@ -126,9 +128,12 @@ class CommentController {
             return
         }
 
-        if(commentInstance.media.hasProperty('videoKey'))
-            redirect(controller:"Video", action: "show", id:mediaCut.id)
-        else
-            redirect( controller:'Image', action: "show", id:mediaCut.id)
+        if(mediaCut){
+            if(commentInstance.media.hasProperty('videoKey'))
+                redirect(controller:"Video", action: "show", id:mediaCut.id)
+            else
+                redirect( controller:'Image', action: "show", id:mediaCut.id)
+        }else
+            redirect(controller: 'mediaCut', action:"list", userOnly:true)
     }
 }
