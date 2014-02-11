@@ -49,7 +49,6 @@
         </div>
     </nav>
 </div>
-
 <div class="container" style="width: 60%">
     <g:if test='${flash.message}'>
         <div class='alert alert-danger alert-dismissable' style="text-align: left">
@@ -84,6 +83,45 @@
                 </div>
             </div>
         </g:if>
+    </div>
+
+    <div>
+        <div class="parent">
+            <sec:ifLoggedIn>
+                <div class="child">
+                    <g:form controller="evaluation" action="vote">
+                        <g:ifNotAlreadyVoted evaluations="${video.evaluations}" loggedUserId="${sec.loggedInUserInfo(field: 'id')}" >
+                            <span class ="smash">
+                                <g:actionSubmit class="vote" value="true" action="vote" />
+                                <g:hiddenField name="vote" value="true" />
+                                <g:hiddenField name="type" value="video" />
+                                <g:hiddenField name="id" value="${video.id}" />
+                            </span>
+                        </g:ifNotAlreadyVoted>
+                        <g:ifAlreadyVoted evaluations="${video.evaluations}" loggedUserId="${sec.loggedInUserInfo(field: 'id')}" >
+                            <g:img dir="images" file="smash.png" />
+                        </g:ifAlreadyVoted>
+                        <span class="nbvote"><p>${video.nbPositiveVote}</p></span>
+                    </g:form>
+                </div>
+                <div class="child2">
+                    <g:form controller="evaluation" action="vote">
+                        <g:ifNotAlreadyVoted evaluations="${video.evaluations}" loggedUserId="${sec.loggedInUserInfo(field: 'id')}" >
+                            <span class ="unsmash">
+                                <g:actionSubmit class="vote" value="false" action="vote" />
+                                <g:hiddenField name="vote" value="false" />
+                                <g:hiddenField name="type" value="video" />
+                                <g:hiddenField name="id" value="${video.id}" />
+                            </span>
+                        </g:ifNotAlreadyVoted>
+                        <g:ifAlreadyVoted evaluations="${video.evaluations}" loggedUserId="${sec.loggedInUserInfo(field: 'id')}" >
+                            <g:img dir="images" file="unsmash.png" />
+                        </g:ifAlreadyVoted>
+                        <span class="nbvote2"><p>${video.nbNegativeVote}</p></span>
+                    </g:form>
+                </div>
+            </sec:ifLoggedIn>
+        </div>
     </div>
 
     <youtube:video videoKey="${video.videoKey}" start="${video.startTime}" end="${video.endTime}" />
