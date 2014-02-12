@@ -2,12 +2,8 @@ package com.smash.tag;
 
 import com.smash.domain.Tag
 
-import grails.test.mixin.TestFor
 import spock.lang.Specification
 
-/**
- * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
- */
 class TagServiceIntegrationSpec extends Specification {
 	TagService tagService;
 	Tag existingTag;

@@ -19,9 +19,6 @@ class EvaluationServiceIntegrationSpec extends Specification {
         bootstrapTestService.initializeTests()
     }
 
-    def cleanup() {
-    }
-
     void "test number of positive votes is well incremented for a Video"() {
         given : "a Video and a positive Evaluation"
             MediaCut mediacut = new Video(title: "Une video", owner: User.findByUsername("owner"), videoKey: "key",
@@ -39,7 +36,7 @@ class EvaluationServiceIntegrationSpec extends Specification {
     void "test number of positive votes is well incremented for an Image"() {
         given : "an Image and a positive Evaluation"
             MediaCut mediacut = new Image(title: "Une image", owner: User.findByUsername("owner"),
-                    blob: new byte[10], mimeType: "image/png", fileName: "my image", dateCreated: new Date())
+                    dataBlob: new byte[10], mimeType: "image/png", fileName: "my image", dateCreated: new Date())
             Evaluation evaluation = new Evaluation(vote: true, owner: User.findByUsername("owner2"), media: mediacut)
             def nbPositiveVote = mediacut.getNbPositiveVote()
 
@@ -67,7 +64,7 @@ class EvaluationServiceIntegrationSpec extends Specification {
     void "test number of negative votes is well incremented for an Image"() {
         given : "an Image and a negative Evaluation"
             MediaCut mediacut = new Image(title: "Une image", owner: User.findByUsername("owner"),
-                    blob: new byte[10], mimeType: "image/png", fileName: "my image", dateCreated: new Date())
+                    dataBlob: new byte[10], mimeType: "image/png", fileName: "my image", dateCreated: new Date())
         Evaluation evaluation = new Evaluation(vote: false, owner: User.findByUsername("owner2"), media: mediacut)
             def nbNegativeVote = mediacut.getNbNegativeVote()
 
@@ -94,7 +91,7 @@ class EvaluationServiceIntegrationSpec extends Specification {
     void "test evaluation is added correctly in the Image"() {
         given : "an Image and an Evaluation"
             MediaCut mediacut = new Image(title: "Une image", owner: User.findByUsername("owner"),
-                    blob: new byte[10], mimeType: "image/png", fileName: "my image", dateCreated: new Date())
+                    dataBlob: new byte[10], mimeType: "image/png", fileName: "my image", dateCreated: new Date())
             Evaluation evaluation = new Evaluation(vote: false, owner: User.findByUsername("owner2"), media: mediacut)
 
         when : "service is called"
@@ -119,7 +116,7 @@ class EvaluationServiceIntegrationSpec extends Specification {
     void "test image and evaluation are saved correctly"() {
         given : "an Image and an Evaluation"
             MediaCut mediacut = new Image(title: "Une image", owner: User.findByUsername("owner"),
-                    blob: new byte[10], mimeType: "image/png", fileName: "my image", dateCreated: new Date())
+                    dataBlob: new byte[10], mimeType: "image/png", fileName: "my image", dateCreated: new Date())
             Evaluation evaluation = new Evaluation(vote: false, owner: User.findByUsername("owner2"), media: mediacut)
         when : "service is called"
             evaluationService.voteForMediaCut(mediacut, evaluation)

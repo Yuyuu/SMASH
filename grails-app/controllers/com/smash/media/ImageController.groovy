@@ -58,8 +58,8 @@ class ImageController {
         }
 
         response.contentType = image.mimeType
-        response.setContentLength(image.blob.size())
-        response.outputStream << image.blob
+        response.setContentLength(image.dataBlob.size())
+        response.outputStream << image.dataBlob
         response.outputStream.flush()
     }
 }

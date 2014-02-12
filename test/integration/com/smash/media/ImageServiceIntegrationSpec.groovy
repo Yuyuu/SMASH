@@ -23,7 +23,7 @@ class ImageServiceIntegrationSpec extends Specification {
                 title: "title",
                 description: "description",
                 owner: user,
-                blob: [0, 1, 2, 3, 5] as byte[],
+                dataBlob: [0, 1, 2, 3, 5] as byte[],
                 mimeType: "image/png",
                 fileName: "file.png"
         ).save(failOnError: true)
@@ -50,7 +50,7 @@ class ImageServiceIntegrationSpec extends Specification {
                 title: "title",
                 description: "description",
                 owner: user,
-                blob: [0, 1, 2, 3, 5] as byte[],
+                dataBlob: [0, 1, 2, 3, 5] as byte[],
                 mimeType: "image/png",
                 fileName: "file.png"
         )
