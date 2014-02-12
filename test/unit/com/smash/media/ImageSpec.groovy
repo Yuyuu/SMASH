@@ -13,7 +13,7 @@ class ImageSpec extends Specification {
                 title: "title",
                 description: "description",
                 owner: Mock(User),
-                blob: [0] * (Image.MAXIMUM_SIZE + 1) as byte[],
+                dataBlob: [0] * (Image.MAXIMUM_SIZE + 1) as byte[],
                 mimeType: "image/png",
                 fileName: "file.png"
         )
@@ -28,7 +28,7 @@ class ImageSpec extends Specification {
                 title: "title",
                 description: "description",
                 owner: Mock(User),
-                blob: [0] * (Image.MAXIMUM_SIZE) as byte[],
+                dataBlob: [0] * (Image.MAXIMUM_SIZE) as byte[],
                 mimeType: "image/png",
                 fileName: "file.png"
         )

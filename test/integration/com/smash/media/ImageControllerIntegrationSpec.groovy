@@ -20,7 +20,7 @@ class ImageControllerIntegrationSpec extends Specification {
                 title: "title",
                 description: "description",
                 owner: user,
-                blob: [0] * 10 as byte[],
+                dataBlob: [0] * 10 as byte[],
                 mimeType: "image/png",
                 fileName: "file.png"
         ).save(failOnError: true)

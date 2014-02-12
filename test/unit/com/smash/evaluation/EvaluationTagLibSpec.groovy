@@ -21,15 +21,12 @@ class EvaluationTagLibSpec extends Specification {
     def setup() {
         user = new User(username: "owner", email: "owner@ups.com", password: "pwd",
                 enabled: true, accountExpired: false, accountLocked: false, passwordExpired: false).save(failOnError: true)
-        MediaCut mediacut = new Image(title: "Une image", owner: user, blob: new byte[10],
+        MediaCut mediacut = new Image(title: "Une image", owner: user, dataBlob: new byte[10],
                 mimeType: "image/png", fileName: "my image", dateCreated: new Date()).save(failOnError: true)
         Evaluation eval = new Evaluation(vote: true, owner: user, media: mediacut).save(failOnError: true)
         evaluations = new HashSet<Evaluation>() {{
             add(eval);
         }}
-    }
-
-    def cleanup() {
     }
 
     def "test if user already voted"() {

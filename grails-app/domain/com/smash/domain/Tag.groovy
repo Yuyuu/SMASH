@@ -4,7 +4,6 @@ class Tag {
 	String name;
 
     static constraints = {
-		name blank: false
-		name nullable: false
+		name nullable: false, blank: false
     }
 }
