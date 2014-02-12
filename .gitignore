@@ -7,6 +7,7 @@
 /*.tmproj
 /ivy*
 /eclipse
+/target-eclipse
 /.idea
 /atlassian-ide-plugin.xml
 /out
@@ -15,3 +16,7 @@
 *.iml
 
 target
+fmt.tld
+c.tld
+
+cobertura.ser

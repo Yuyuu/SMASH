@@ -1,122 +1,118 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta name="layout" content="main"/>
-		<title>Welcome to Grails</title>
-		<style type="text/css" media="screen">
-			#status {
-				background-color: #eee;
-				border: .2em solid #fff;
-				margin: 2em 2em 1em;
-				padding: 1em;
-				width: 12em;
-				float: left;
-				-moz-box-shadow: 0px 0px 1.25em #ccc;
-				-webkit-box-shadow: 0px 0px 1.25em #ccc;
-				box-shadow: 0px 0px 1.25em #ccc;
-				-moz-border-radius: 0.6em;
-				-webkit-border-radius: 0.6em;
-				border-radius: 0.6em;
-			}
+<head>
+    <meta charset="utf-8">
+    <meta name="layout" content="smash"/>
+    <title>Smash</title>
+</head>
 
-			.ie6 #status {
-				display: inline; /* float double margin fix http://www.positioniseverything.net/explorer/doubled-margin.html */
-			}
+<body>
 
-			#status ul {
-				font-size: 0.9em;
-				list-style-type: none;
-				margin-bottom: 0.6em;
-				padding: 0;
-			}
+<div id="container" class="container-fluid" style="width: 98%; margin: 0 auto;">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Smash</a>
+        </div>
 
-			#status li {
-				line-height: 1.3;
-			}
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="${createLink(controller: 'mediaCut')}">Media Cuts</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <sec:ifLoggedIn>
+                    <p class="navbar-text"><sec:username/></p>
 
-			#status h1 {
-				text-transform: uppercase;
-				font-size: 1.1em;
-				margin: 0 0 0.3em;
-			}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="${createLink(controller: 'userManagement', action: 'update')}">Update</a></li>
+                            <li class="divider"></li>
+                            <li><a href="${createLink(controller: 'mediaCut', action: 'list', params: [userOnly: 'true'])}">My Media Cuts</a>
+                            </li>
+                        </ul>
+                    </li>
 
-			#page-body {
-				margin: 2em 1em 1.25em 18em;
-			}
+                    <li>
+                        <a href="${createLink(controller: 'logout')}">
+                            <span class="glyphicon glyphicon-log-out"></span>
+                            <g:message code="smash.Sign-out"/>
+                        </a>
+                    </li>
+                </sec:ifLoggedIn>
+                <sec:ifNotLoggedIn>
+                    <li><g:link controller="login"><g:message code="smash.Sign-in"/></g:link></li>
+                </sec:ifNotLoggedIn>
+            </ul>
+        </div>
+    </nav>
+</div>
 
-			h2 {
-				margin-top: 1em;
-				margin-bottom: 0.3em;
-				font-size: 1em;
-			}
+<div class="container" style="width: 100%">
+    <div class="jumbotron" style="text-align: center;">
+        <h1>SMASH</h1>
 
-			p {
-				line-height: 1.5;
-				margin: 0.25em 0;
-			}
+        <p>Short Media Sharing</p>
+    </div>
 
-			#controller-list ul {
-				list-style-position: inside;
-			}
+    <div class="container" style="width: 70%; margin: 0 auto;">
+        <div class="row" style="margin-bottom: 5em; ">
+        <div class="col-lg-6" style="text-align: center;">
+            <g:img dir="images" file="smash_logo.jpg"/>
+        </div>
 
-			#controller-list li {
-				line-height: 1.3;
-				list-style-position: inside;
-				margin: 0.25em 0;
-			}
 
-			@media screen and (max-width: 480px) {
-				#status {
-					display: none;
-				}
 
-				#page-body {
-					margin: 0 1em 1em;
-				}
+          <sec:ifNotLoggedIn>
+              <div class="col-lg-6">
+                  <div class="container" style="width: 90%; margin: auto">
+                      <h3><g:message code="smash.Register"/></h3>
+                      <g:form controller="userManagement" action="signup">
+                          <fieldset>
 
-				#page-body h1 {
-					margin-top: 0;
-				}
-			}
-		</style>
-	</head>
-	<body>
-		<a href="#page-body" class="skip"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div id="status" role="complementary">
-			<h1>Application Status</h1>
-			<ul>
-				<li>App version: <g:meta name="app.version"/></li>
-				<li>Grails version: <g:meta name="app.grails.version"/></li>
-				<li>Groovy version: ${GroovySystem.getVersion()}</li>
-				<li>JVM version: ${System.getProperty('java.version')}</li>
-				<li>Reloading active: ${grails.util.Environment.reloadingAgentEnabled}</li>
-				<li>Controllers: ${grailsApplication.controllerClasses.size()}</li>
-				<li>Domains: ${grailsApplication.domainClasses.size()}</li>
-				<li>Services: ${grailsApplication.serviceClasses.size()}</li>
-				<li>Tag Libraries: ${grailsApplication.tagLibClasses.size()}</li>
-			</ul>
-			<h1>Installed Plugins</h1>
-			<ul>
-				<g:each var="plugin" in="${applicationContext.getBean('pluginManager').allPlugins}">
-					<li>${plugin.name} - ${plugin.version}</li>
-				</g:each>
-			</ul>
-		</div>
-		<div id="page-body" role="main">
-			<h1>Welcome to Grails</h1>
-			<p>Congratulations, you have successfully started your first Grails application! At the moment
-			   this is the default page, feel free to modify it to either redirect to a controller or display whatever
-			   content you may choose. Below is a list of controllers that are currently deployed in this application,
-			   click on each to execute its default action:</p>
+                              <g:if test="${user?.hasErrors()}">
+                                  <div class="alert alert-warning">
+                                      <g:eachError bean="${user}">
+                                          <li><g:message error="${it}"/></li>
+                                      </g:eachError>
+                                  </div>
+                              </g:if>
 
-			<div id="controller-list" role="navigation">
-				<h2>Available Controllers:</h2>
-				<ul>
-					<g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName } }">
-						<li class="controller"><g:link controller="${c.logicalPropertyName}">${c.fullName}</g:link></li>
-					</g:each>
-				</ul>
-			</div>
-		</div>
-	</body>
+                              <div class="form-group">
+                                  <input type="text" class="form-control" id="email" name="email"
+                                         placeholder="Your email"
+                                         value="${fieldValue(bean: user, field: 'email')}">
+                              </div>
+
+                              <div class="form-group">
+                                  <input type="text" class="form-control"
+                                         id="username" placeholder="Choose your username"
+                                         name="username"
+                                         value="${fieldValue(bean: user, field: 'username')}">
+                              </div>
+
+
+                              <div class="form-group">
+                                  <input type="password" class="form-control"
+                                         id="password" placeholder="Password" name="password">
+                              </div>
+
+                              <div class="form-group">
+                                  <input type="password" class="form-control"
+                                         id="password2" placeholder="Confirm your password"
+                                         name="password2">
+                              </div>
+                              <button type="submit"
+                                      class="btn btn-primary pull-left">Sign up &raquo;</button>
+                          </fieldset>
+                      </g:form>
+                  </div>
+              </div>
+          </sec:ifNotLoggedIn>
+      </div>
+  </div>
+
+</div>
+</body>
 </html>
