@@ -76,7 +76,7 @@ class ImageControllerSpec extends Specification {
         and: "some mocked params"
         params.title = "title"
         params.description = "description"
-        params.blob = cmf
+        params.dataBlob = cmf
 
         and: "a mocked image"
         Image image = GroovyMock(Image)
@@ -109,7 +109,7 @@ class ImageControllerSpec extends Specification {
         and: "some mocked params"
         params.title = "title"
         params.description = "description"
-        params.blob = cmf
+        params.dataBlob = cmf
 
         and: "a mocked image"
         Image image = Mock(Image)
