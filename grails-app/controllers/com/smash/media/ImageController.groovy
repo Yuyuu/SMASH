@@ -32,8 +32,8 @@ class ImageController {
             return [image: new Image(copy)]
         }
 
-        params.mimeType = ((CommonsMultipartFile) params.blob).contentType
-        params.fileName = ((CommonsMultipartFile) params.blob).originalFilename
+        params.mimeType = ((CommonsMultipartFile) params.dataBlob).contentType
+        params.fileName = ((CommonsMultipartFile) params.dataBlob).originalFilename
 
         Image image = new Image(params)
         image = imageService.addImage((User) springSecurityService.currentUser, image)

@@ -94,7 +94,7 @@
 
                         <div class="form-group">
                             <label for="inputImage">File input</label>
-                            <input type="file" id="inputImage" name="blob">
+                            <input type="file" id="inputImage" name="dataBlob">
                             <p class="help-block">Allowed formats: png/jpeg.<br>Maximum size: ${(Image.MAXIMUM_SIZE / 1000000) as Integer}MB</p>
                         </div>
 
